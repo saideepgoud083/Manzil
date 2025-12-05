@@ -8,6 +8,7 @@ import com.example.Manzil.entity.Driver;
 import com.example.Manzil.entity.Vehicle;
 import com.example.Manzil.repository.DriverRepository;
 
+
 @Service
 public class DriverService {
      @Autowired
@@ -37,7 +38,9 @@ public class DriverService {
 		d.setMobileNum(dto.getMobNum());
 		d.setGender(dto.getGender());
 		d.setMailId(dto.getMailId());
-	
+	     d.setV(v);
+	    
+	    
 	   dr.save(d);
 		
 	}

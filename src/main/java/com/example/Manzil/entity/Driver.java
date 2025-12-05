@@ -1,38 +1,30 @@
 package com.example.Manzil.entity;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+
+import jakarta.persistence.*;
+
 
 @Entity
 public class Driver {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int driverId ;
-	
-	private String licenseNum;
-	
-	private String upiId;
-	
-	private String driverName;
-	
-	private String driverStatus;
-	
-	private int age ;
-	
-	private long mobileNum;
-	
-	private String gender ;
-	
-	private String mailId;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	
-	private Vehicle v ;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private int driverId;
+
+	    private String licenseNum;
+	    private String upiId;
+	    private String driverName;
+	    private String driverStatus;
+	    private int age;
+	    private long mobileNum;
+	    private String gender;
+	    private String mailId;
+
+	    @OneToOne(cascade = CascadeType.ALL)
+	    @JoinColumn(name = "vehicle_id")
+	  
+	    private Vehicle v;
 
 	public Driver() {
 		super();

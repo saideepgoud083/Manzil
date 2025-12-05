@@ -1,5 +1,7 @@
 package com.example.Manzil.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -24,9 +26,11 @@ public class Vehicle {
 	
 	private double pricePerKm;
 	
-	@OneToOne
+
     @MapsId                   // 👉 important
     @JoinColumn(name = "id")
+	@OneToOne
+	
 	
 	private Driver d ;
 
@@ -133,7 +137,7 @@ public class Vehicle {
 	public String toString() {
 		return "Vehicle [vehicleId=" + vehicleId + ", vehicleName=" + vehicleName + ", vehicleNum=" + vehicleNum
 				+ ", type=" + type + ", model=" + model + ", capacity=" + capacity + ", currentCity=" + currentCity
-				+ ", availabilityStatus=" + availabilityStatus + ", pricePerKm=" + pricePerKm + ", d=" + d + "]";
+				+ ", availabilityStatus=" + availabilityStatus + ", pricePerKm=" + pricePerKm +  "]";
 	}
 	
 	
