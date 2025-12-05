@@ -12,6 +12,7 @@ import com.example.Manzil.repository.DriverRepository;
 import com.example.Manzil.repository.VechileRepositry;
 import com.example.Manzil.service.Exception.DataIntegrityViolationException;
 import com.example.Manzil.service.Exception.DriverAlreadyExistsException;
+import com.example.Manzil.service.Exception.DriverNotFoundException;
 
 
 @Service
@@ -20,7 +21,8 @@ public class DriverService {
 	private  DriverRepository dr ;
 	@Autowired
 	private VechileRepositry vr;
-	
+	@Autowired
+	private LocationService ls;
 	
 
 //	
@@ -160,7 +162,11 @@ public class DriverService {
 //	    d.setMobileNum(dto.getMobNum());
 //	    d.setGender(dto.getGender());
 //	    d.setMailId(dto.getMailId());
+<<<<<<< HEAD
 //        
+=======
+//
+>>>>>>> ae676fc6c5ba6da8698638610facc3c1054f0352
 //	    // Update vehicle
 //	    Vehicle v = d.getV();
 //	    v.setVehicleName(dto.getVehicleName());
@@ -197,6 +203,35 @@ public class DriverService {
 
 	    return rs;
 	}
+//update
+	public responcestucture<Driver> updateDriverLocation(long mobile, double latitude, double longitude) {
+	    
+	    responcestucture<Driver> rs = new responcestucture<>();
+
+	    // find driver by mobile number
+	    Driver d = dr.findByMobileNum(mobile);
+
+	    if (d == null) {
+	        throw new DriverNotFoundException();
+	    }
+
+	    // update vehicle latitude & longitude
+	    Vehicle v1 = d.getV();
+	    String loc = ls.getLocation(latitude,longitude);
+//        Vehicle v = new   Vehicle();
+//        v.setCurrentCity(loc);
+	    v1.setCurrentCity(loc);
+
+	    vr.save(v1);
+	    
+
+	    rs.setStatuscode(HttpStatus.OK.value());
+	    rs.setMasg("Driver location updated successfully");
+	    rs.setData(d);
+
+	    return rs;
+	}
+	
 
 
 

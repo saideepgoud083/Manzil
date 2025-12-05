@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Manzil.responcestucture;
@@ -46,6 +47,19 @@ public class Drivercontroller {
 //    public responcestucture<Driver> updateDriver(@PathVariable int id, @RequestBody DriverDto dto) {
 //        return ds.updateDriver(id, dto);
 //    }
+<<<<<<< HEAD
+=======
+    
+  @PutMapping("/update")
+    public responcestucture<Driver> updateDriver(
+            @RequestParam long mob,
+            @RequestParam double latitude,
+            @RequestParam double longitude) {
+
+        return ds.updateDriverLocation(mob, latitude, longitude);
+    }
+>>>>>>> ae676fc6c5ba6da8698638610facc3c1054f0352
+
 
     // ---------------- DELETE ----------------
     @DeleteMapping("/delete/{id}")
