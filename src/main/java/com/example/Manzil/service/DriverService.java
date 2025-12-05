@@ -12,6 +12,7 @@ import com.example.Manzil.repository.DriverRepository;
 import com.example.Manzil.repository.VechileRepositry;
 import com.example.Manzil.service.Exception.DataIntegrityViolationException;
 import com.example.Manzil.service.Exception.DriverAlreadyExistsException;
+import com.example.Manzil.service.Exception.DriverNotFoundException;
 
 @Service
 public class DriverService {
@@ -19,7 +20,8 @@ public class DriverService {
 	private  DriverRepository dr ;
 	@Autowired
 	private VechileRepositry vr;
-	
+	@Autowired
+	private LocationService ls;
 	
 //	public void regdriver(DriverDto dto) {
 //		
@@ -109,41 +111,41 @@ public class DriverService {
 	}
 
 	//update
-	public responcestucture<Driver> updateDriver(int id, DriverDto dto) {
-
-	    responcestucture<Driver> rs = new responcestucture<>();
-
-	    Driver d = dr.findById(id)
-	                 .orElseThrow(() -> new DataIntegrityViolationException("Driver not found, cannot update"));
-
-	    // Update driver fields
-	    d.setLicenseNum(dto.getLicenseNum());
-	    d.setUpiId(dto.getUpiId());
-	    d.setDriverName(dto.getDriverName());
-	    d.setAge(dto.getAge());
-	    d.setMobileNum(dto.getMobNum());
-	    d.setGender(dto.getGender());
-	    d.setMailId(dto.getMailId());
-
-	    // Update vehicle
-	    Vehicle v = d.getV();
-	    v.setVehicleName(dto.getVehicleName());
-	    v.setVehicleNum(dto.getVehicleNum());
-	    v.setType(dto.getVehicleType());
-	    v.setModel(dto.getVehicleModel());
-	    v.setCapacity(dto.getCapacity());
-	    v.setPricePerKm(dto.getPricePerKm());
-
-	    vr.save(v);
-
-	    Driver saved = dr.save(d);
-
-	    rs.setStatuscode(HttpStatus.OK.value());
-	    rs.setMasg("Driver updated successfully");
-	    rs.setData(saved);
-
-	    return rs;
-	}
+//	public responcestucture<Driver> updateDriver(int id, DriverDto dto) {
+//
+//	    responcestucture<Driver> rs = new responcestucture<>();
+//
+//	    Driver d = dr.findById(id)
+//	                 .orElseThrow(() -> new DataIntegrityViolationException("Driver not found, cannot update"));
+//
+//	    // Update driver fields
+//	    d.setLicenseNum(dto.getLicenseNum());
+//	    d.setUpiId(dto.getUpiId());
+//	    d.setDriverName(dto.getDriverName());
+//	    d.setAge(dto.getAge());
+//	    d.setMobileNum(dto.getMobNum());
+//	    d.setGender(dto.getGender());
+//	    d.setMailId(dto.getMailId());
+//
+//	    // Update vehicle
+//	    Vehicle v = d.getV();
+//	    v.setVehicleName(dto.getVehicleName());
+//	    v.setVehicleNum(dto.getVehicleNum());
+//	    v.setType(dto.getVehicleType());
+//	    v.setModel(dto.getVehicleModel());
+//	    v.setCapacity(dto.getCapacity());
+//	    v.setPricePerKm(dto.getPricePerKm());
+//
+//	    vr.save(v);
+//
+//	    Driver saved = dr.save(d);
+//
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Driver updated successfully");
+//	    rs.setData(saved);
+//
+//	    return rs;
+//	}
 	
 	//delete
 	public responcestucture<String> deleteDriver(int id) {
@@ -161,6 +163,35 @@ public class DriverService {
 
 	    return rs;
 	}
+//update
+	public responcestucture<Driver> updateDriverLocation(long mobile, double latitude, double longitude) {
+	    
+	    responcestucture<Driver> rs = new responcestucture<>();
+
+	    // find driver by mobile number
+	    Driver d = dr.findByMobileNum(mobile);
+
+	    if (d == null) {
+	        throw new DriverNotFoundException();
+	    }
+
+	    // update vehicle latitude & longitude
+	    Vehicle v1 = d.getV();
+	    String loc = ls.getLocation(latitude,longitude);
+//        Vehicle v = new   Vehicle();
+//        v.setCurrentCity(loc);
+	    v1.setCurrentCity(loc);
+
+	    vr.save(v1);
+	    
+
+	    rs.setStatuscode(HttpStatus.OK.value());
+	    rs.setMasg("Driver location updated successfully");
+	    rs.setData(d);
+
+	    return rs;
+	}
+	
 
 
 
