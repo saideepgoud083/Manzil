@@ -25,7 +25,7 @@ public class Vehicle {
 	private double pricePerKm;
 	
 	@OneToOne
-    @MapsId                   // 👉 important
+   // @MapsId                   // 👉 important
     @JoinColumn(name = "id")
 	
 	private Driver d ;

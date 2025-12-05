@@ -7,4 +7,8 @@ import com.example.Manzil.entity.Driver;
 @Repository
 public interface DriverRepository extends JpaRepository<Driver,Integer> {
 
+	Driver findByLicenseNum(String licenseNum);
+
+	//Driver findByLicenseNum(String licenseNum);
+
 }
