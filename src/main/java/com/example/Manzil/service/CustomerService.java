@@ -25,6 +25,9 @@ private LocationService ls;
        c.setCurrentLocation(loc);
        cr.save(c);
 
+       
+             
+       
 	
 	}
 
