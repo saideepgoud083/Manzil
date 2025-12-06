@@ -93,16 +93,7 @@ public class DriverService {
 	    }
 	    Driver d = new Driver();
 	    // 2️⃣ Create Vehicle
-	    Vehicle v = new Vehicle();
-	    v.setVehicleName(dto.getVehicleName());
-	    v.setVehicleNum(dto.getVehicleNum());
-	    v.setType(dto.getVehicleType());
-	    v.setModel(dto.getVehicleModel());
-	    v.setCapacity(dto.getCapacity());
-	    v.setPricePerKm(dto.getPricePerKm());
-         v.setVehicleId(d.getDriverId());
-         
-	    Vehicle savedVehicle = vr.save(v);
+	   
 
 	    // 3️⃣ Create Driver object
 	   
@@ -114,13 +105,25 @@ public class DriverService {
 	    d.setGender(dto.getGender());
 	    d.setMailId(dto.getMailId());
 	    
-	    
-
-	    // Set vehicle inside driver
-	    d.setV(savedVehicle);
-
-	    // 4️⃣ Save Driver
 	    Driver saved = dr.save(d);
+	    
+	    
+	    
+	    
+	    Vehicle v = new Vehicle();
+	    v.setVehicleName(dto.getVehicleName());
+	    v.setVehicleNum(dto.getVehicleNum());
+	    v.setType(dto.getVehicleType());
+	    v.setModel(dto.getVehicleModel());
+	    v.setCapacity(dto.getCapacity());
+	    v.setPricePerKm(dto.getPricePerKm());
+	    v.setVehicleId(d.getDriverId());
+	    v.setD(saved);
+	    Vehicle savedVehicle = vr.save(v);
+	    // Set vehicle inside driver
+	  
+	    // 4️⃣ Save Driver
+	    saved.setV(savedVehicle);
 
 	    // 5️⃣ Prepare response
 	    rs.setStatuscode(HttpStatus.CREATED.value());
@@ -162,11 +165,7 @@ public class DriverService {
 //	    d.setMobileNum(dto.getMobNum());
 //	    d.setGender(dto.getGender());
 //	    d.setMailId(dto.getMailId());
-<<<<<<< HEAD
-//        
-=======
-//
->>>>>>> ae676fc6c5ba6da8698638610facc3c1054f0352
+
 //	    // Update vehicle
 //	    Vehicle v = d.getV();
 //	    v.setVehicleName(dto.getVehicleName());
@@ -235,6 +234,17 @@ public class DriverService {
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }

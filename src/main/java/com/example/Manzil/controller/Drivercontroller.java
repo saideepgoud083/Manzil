@@ -22,17 +22,13 @@ public class Drivercontroller {
 	@Autowired
 	private DriverService ds ;
 	
-	@RestController
-	public class DriverController {
-
-	    @Autowired
-	    private DriverService ds;
+	
 
 	    @PostMapping("/regdriver")
 	    public responcestucture<Driver> registerDriver(@RequestBody @Validated DriverDto dto) {
 	        return ds.registerDriver(dto);
 	    }
-	}
+	
 
 	
 	
@@ -47,9 +43,7 @@ public class Drivercontroller {
 //    public responcestucture<Driver> updateDriver(@PathVariable int id, @RequestBody DriverDto dto) {
 //        return ds.updateDriver(id, dto);
 //    }
-<<<<<<< HEAD
-=======
-    
+
   @PutMapping("/update")
     public responcestucture<Driver> updateDriver(
             @RequestParam long mob,
@@ -58,7 +52,7 @@ public class Drivercontroller {
 
         return ds.updateDriverLocation(mob, latitude, longitude);
     }
->>>>>>> ae676fc6c5ba6da8698638610facc3c1054f0352
+
 
 
     // ---------------- DELETE ----------------
