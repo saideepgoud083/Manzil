@@ -7,4 +7,8 @@ import com.example.Manzil.entity.Customer;
 @Repository
 public interface CustomerRepositry extends JpaRepository<Customer,Integer> {
 
+	//Customer findByMobileNum(long mob);
+
+	Customer findByMob(long mob);
+
 }
