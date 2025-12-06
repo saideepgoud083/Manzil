@@ -61,18 +61,12 @@ public class DriverService {
 	    }
 
 	    // 2️⃣ Create Vehicle
-	    Vehicle v = new Vehicle();
-	    v.setVehicleName(dto.getVehicleName());
-	    v.setVehicleNum(dto.getVehicleNum());
-	    v.setType(dto.getVehicleType());
-	    v.setModel(dto.getVehicleModel());
-	    v.setCapacity(dto.getCapacity());
-	    v.setPricePerKm(dto.getPricePerKm());
-
-	    Vehicle savedVehicle = vr.save(v);
+	    Driver d = new Driver();
+	    // 2️⃣ Create Vehicle
+	   
 
 	    // 3️⃣ Create Driver object
-	    Driver d = new Driver();
+	   
 	    d.setLicenseNum(dto.getLicenseNum());
 	    d.setUpiId(dto.getUpiId());
 	    d.setDriverName(dto.getDriverName());
@@ -80,12 +74,22 @@ public class DriverService {
 	    d.setMobileNum(dto.getMobNum());
 	    d.setGender(dto.getGender());
 	    d.setMailId(dto.getMailId());
-
-	    // Set vehicle inside driver
-	    d.setV(savedVehicle);
-
-	    // 4️⃣ Save Driver
+	    
 	    Driver saved = dr.save(d);
+	    Vehicle v = new Vehicle();
+	    v.setVehicleName(dto.getVehicleName());
+	    v.setVehicleNum(dto.getVehicleNum());
+	    v.setType(dto.getVehicleType());
+	    v.setModel(dto.getVehicleModel());
+	    v.setCapacity(dto.getCapacity());
+	    v.setPricePerKm(dto.getPricePerKm());
+	    v.setVehicleId(d.getDriverId());
+	    v.setD(saved);
+	    Vehicle savedVehicle = vr.save(v);
+	    // Set vehicle inside driver
+	  
+	    // 4️⃣ Save Driver
+	    saved.setV(savedVehicle);
 
 	    // 5️⃣ Prepare response
 	    rs.setStatuscode(HttpStatus.CREATED.value());
@@ -103,6 +107,7 @@ public class DriverService {
 	    Driver d = dr.findById(id)
 	                 .orElseThrow(() -> new DataIntegrityViolationException("Driver not found with ID: " + id));
 
+	    
 	    rs.setStatuscode(HttpStatus.FOUND.value());
 	    rs.setMasg("Driver found successfully");
 	    rs.setData(d);
@@ -190,6 +195,18 @@ public class DriverService {
 	    rs.setData(d);
 
 	    return rs;
+	}
+
+	public responcestucture<Driver> delDriverbymob(long mob) {
+		// TODO Auto-generated method stub
+		Driver d=dr.findByMobileNum(mob);
+		dr.delete(d);
+		   responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver found successfully");
+		    rs.setData(d);
+		    return rs;
+		   
 	}
 	
 
