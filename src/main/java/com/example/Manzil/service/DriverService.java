@@ -93,6 +93,11 @@ public class DriverService {
 	    }
 	    Driver d = new Driver();
 	    // 2️⃣ Create Vehicle
+<<<<<<< HEAD
+=======
+	    Driver d = new Driver();
+	    // 2️⃣ Create Vehicle
+>>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
 	   
 
 	    // 3️⃣ Create Driver object
@@ -106,10 +111,13 @@ public class DriverService {
 	    d.setMailId(dto.getMailId());
 	    
 	    Driver saved = dr.save(d);
+<<<<<<< HEAD
 	    
 	    
 	    
 	    
+=======
+>>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
 	    v.setVehicleNum(dto.getVehicleNum());
@@ -142,6 +150,7 @@ public class DriverService {
 	    Driver d = dr.findById(id).orElseThrow(() -> new DataIntegrityViolationException("Driver not found with ID: " + id));
 
 
+	    
 	    rs.setStatuscode(HttpStatus.FOUND.value());
 	    rs.setMasg("Driver found successfully");
 	    rs.setData(d);
@@ -229,6 +238,18 @@ public class DriverService {
 	    rs.setData(d);
 
 	    return rs;
+	}
+
+	public responcestucture<Driver> delDriverbymob(long mob) {
+		// TODO Auto-generated method stub
+		Driver d=dr.findByMobileNum(mob);
+		dr.delete(d);
+		   responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver found successfully");
+		    rs.setData(d);
+		    return rs;
+		   
 	}
 	
 
