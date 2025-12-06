@@ -93,11 +93,10 @@ public class DriverService {
 	    }
 	    Driver d = new Driver();
 	    // 2️⃣ Create Vehicle
-<<<<<<< HEAD
-=======
-	    Driver d = new Driver();
-	    // 2️⃣ Create Vehicle
->>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
+
+
+	  
+
 	   
 
 	    // 3️⃣ Create Driver object
@@ -111,13 +110,12 @@ public class DriverService {
 	    d.setMailId(dto.getMailId());
 	    
 	    Driver saved = dr.save(d);
-<<<<<<< HEAD
+
 	    
 	    
 	    
 	    
-=======
->>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
+
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
 	    v.setVehicleNum(dto.getVehicleNum());

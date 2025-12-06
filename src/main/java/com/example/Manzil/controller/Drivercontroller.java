@@ -22,11 +22,7 @@ public class Drivercontroller {
 	@Autowired
 	private DriverService ds ;
 	
-	
-<<<<<<< HEAD
 
-=======
->>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
 	    @PostMapping("/regdriver")
 	    public responcestucture<Driver> registerDriver(@RequestBody @Validated DriverDto dto) {
 	        return ds.registerDriver(dto);
@@ -63,16 +59,13 @@ public class Drivercontroller {
     public responcestucture<String> deleteDriver(@PathVariable int id) {
         return ds.deleteDriver(id);
     }
-<<<<<<< HEAD
-    
-   
-=======
+
     //Delete By using Mobile Id
     @DeleteMapping("/delbyusingmob")
     public responcestucture<Driver> deleteDriver(@RequestParam long mob) {
     	return  ds.delDriverbymob(mob);
     }
->>>>>>> 51817c2be11155a2e33e040ee9a85d02e527aaaa
+
 	
 	
 
