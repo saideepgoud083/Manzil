@@ -11,4 +11,6 @@ public interface CustomerRepositry extends JpaRepository<Customer,Integer> {
 
 	Customer findByMob(long mob);
 
+	Customer findCustomerBYmb(long mob);
+
 }

@@ -36,4 +36,9 @@ public class CustomerDtoController {
     public responcestucture<Customer> findCustomer(@RequestParam long mob) {
     	return cs.findCust(mob);
     }
+    
+    @PostMapping("/seaallavailvech")
+    public void SeaAllAvailableVechile(@RequestParam long mob,String destinationlocation) {
+    	cs.seaAllAvalVechiles(mob,destinationlocation);
+}
 }
