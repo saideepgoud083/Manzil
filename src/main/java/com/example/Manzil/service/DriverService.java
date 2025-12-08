@@ -1,5 +1,7 @@
 package com.example.Manzil.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -81,25 +83,22 @@ public class DriverService {
 //	   vr.save(v);
 //		
 //	}
-	
 	public responcestucture<Driver> registerDriver(DriverDto dto) {
 
 	    responcestucture<Driver> rs = new responcestucture<>();
 
-	    // 1️⃣ Check if driver already exists using license number
+	    // ⿡ Check if driver already exists using license number
 	    Driver dl = dr.findByLicenseNum(dto.getLicenseNum());
 	    if (dl != null) {
 	        throw new DriverAlreadyExistsException();  // same as doctor already exists exception
 	    }
+
+	    // ⿢ Create Vehicle
 	    Driver d = new Driver();
-	    // 2️⃣ Create Vehicle
-
-
-	  
-
+	    // ⿢ Create Vehicle
 	   
 
-	    // 3️⃣ Create Driver object
+	    // ⿣ Create Driver object
 	   
 	    d.setLicenseNum(dto.getLicenseNum());
 	    d.setUpiId(dto.getUpiId());
@@ -110,12 +109,6 @@ public class DriverService {
 	    d.setMailId(dto.getMailId());
 	    
 	    Driver saved = dr.save(d);
-
-	    
-	    
-	    
-	    
-
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
 	    v.setVehicleNum(dto.getVehicleNum());
@@ -123,22 +116,24 @@ public class DriverService {
 	    v.setModel(dto.getVehicleModel());
 	    v.setCapacity(dto.getCapacity());
 	    v.setPricePerKm(dto.getPricePerKm());
-	    v.setVehicleId(d.getDriverId());
+	    v.setVehicleId(saved.getDriverId());
 	    v.setD(saved);
 	    Vehicle savedVehicle = vr.save(v);
 	    // Set vehicle inside driver
 	  
-	    // 4️⃣ Save Driver
+	    // ⿤ Save Driver
 	    saved.setV(savedVehicle);
+	    dr.save(saved);
 
-	    // 5️⃣ Prepare response
+	    // ⿥ Prepare response
 	    rs.setStatuscode(HttpStatus.CREATED.value());
 	    rs.setMasg("Driver registered successfully");
 	    rs.setData(saved);
 
 	    return rs;
-
 	}
+
+	
 	
 	//find
 	public responcestucture<Driver> findDriver(int id) {
@@ -249,15 +244,32 @@ public class DriverService {
 		    return rs;
 		   
 	}
-	
 
 
+/***********updating driver and vechile statuss*/////
+	public responcestucture<Driver> updatedrivervechilestatu(long mobnum , String status ) {
+		     
+		  Driver d = dr.findByMobileNum(mobnum);
 
+		    if (d == null) {
+		        throw new DriverNotFoundException();
+		    }
+		    
+		     d.setDriverStatus(status);
+		     d.getV().setAvailabilityStatus(status);
+		    
+		Driver updated =    dr.save(d);
+		
+		 responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver updated successfully");
+		    rs.setData(updated);
+		    return rs;
+
+		
+	}
 	
-	
-	
-	
-	
+
 	
 	
 	
@@ -267,3 +279,17 @@ public class DriverService {
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

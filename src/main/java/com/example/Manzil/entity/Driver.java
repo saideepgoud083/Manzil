@@ -16,14 +16,14 @@ public class Driver {
 	    private String upiId;
 	    private String driverName;
 	    private String driverStatus;
-	    private int age;
-	    private long mobileNum;
+	    private int age ;
+	    private long mobileNum ;
 	    private String gender;
 	    private String mailId;
 
 	    @OneToOne(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "vehicle_id")
-	  
+	   
 	    private Vehicle v;
 
 	public Driver() {
@@ -44,6 +44,7 @@ public class Driver {
 		this.mailId = mailId;
 		this.v = v;
 	}
+  
 
 	public int getDriverId() {
 		return driverId;

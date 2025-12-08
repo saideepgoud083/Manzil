@@ -18,7 +18,7 @@ public class Vehicle {
 	
 	private String model;
 	
-	private int capacity ;
+	private int capacity   ;
 	
 	private String currentCity;
 	
