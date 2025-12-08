@@ -269,7 +269,12 @@ public class DriverService {
 		
 	}
 	
+	/***********updating driver and vechile statuss*/////
+	public responcestucture<Driver> updatedrivervechilestatu(long mobnum , String status ) {
+		     
+		  Driver d = dr.findByMobileNum(mobnum);
 
+<<<<<<< HEAD
 	
 	
 	
@@ -293,3 +298,26 @@ public class DriverService {
 
 
 
+=======
+		    if (d == null) {
+		        throw new DriverNotFoundException();
+		    }
+		    
+		     d.setDriverStatus(status);
+		     d.getV().setAvailabilityStatus(status);
+		    
+		Driver updated =    dr.save(d);
+		 responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver updated successfully");
+		    rs.setData(updated);
+		    return rs;
+
+		
+	}
+
+
+	
+
+}
+>>>>>>> 59cb6f175cd822d95890d40bda273a946cb7958d

@@ -25,6 +25,7 @@ public class Vehicle {
 	private String availabilityStatus;
 	
 	private double pricePerKm;
+
 	
 
 

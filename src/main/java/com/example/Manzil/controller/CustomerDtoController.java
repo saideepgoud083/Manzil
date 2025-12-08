@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Manzil.responcestucture;
+import com.example.Manzil.Dto.AvailabeVechileDto;
 import com.example.Manzil.Dto.CustomerDto;
 import com.example.Manzil.entity.Customer;
 import com.example.Manzil.entity.Driver;
@@ -38,4 +39,9 @@ public class CustomerDtoController {
     public responcestucture<Customer> findCustomer(@RequestParam long mob) {
     	return cs.findCust(mob);
     }
+    
+    @PostMapping("/seaallavailvech")
+    public responcestucture<AvailabeVechileDto> SeaAllAvailableVechile(@RequestParam long mob,String destinationlocation) {
+    	return cs.seaAllAvalVechiles(mob,destinationlocation);
+}
 }
