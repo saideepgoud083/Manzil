@@ -41,7 +41,13 @@ public class CustomerDtoController {
     }
     
     @PostMapping("/seaallavailvech")
-    public responcestucture<AvailabeVechileDto> SeaAllAvailableVechile(@RequestParam long mob,String destinationlocation) {
+    public responcestucture<AvailabeVechileDto> SeaAllAvailableVechile(@RequestParam long mob,@RequestParam String destinationlocation) {
     	return cs.seaAllAvalVechiles(mob,destinationlocation);
+    	
+    	
+    	
 }
+    
+    
+    
 }

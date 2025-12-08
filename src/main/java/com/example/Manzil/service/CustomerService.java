@@ -49,7 +49,7 @@ CalculateDistanceService cds;
        c.setGender(cd.getGender());
        c.setMob(cd.getMob());
        c.setEmailid(cd.getEmail());
-       String loc = ls.getLocation(cd.getLatitude(),cd.getLongitude());
+       String loc = ls.getCity(cd.getLatitude(),cd.getLongitude());
        c.setCurrentLocation(loc);
 
        cr.save(c);
@@ -188,16 +188,7 @@ return rs;
 //	}
 //	
 	
-<<<<<<< HEAD
-	
-	
-	
-	
-	
-	
-	
-	
-=======
+
 //	public responcestucture<AvailabeVechileDto> seaAllAvalVechiles(long mob, String destinationlocation) {
 //
 //	    double[] coords = cs.getCoordinates(destinationlocation);
@@ -331,8 +322,6 @@ return rs;
 
 	    return rs;
 	}
-
->>>>>>> 59cb6f175cd822d95890d40bda273a946cb7958d
 
 
 }

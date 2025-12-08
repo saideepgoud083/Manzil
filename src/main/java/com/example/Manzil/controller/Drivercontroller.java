@@ -67,27 +67,21 @@ public class Drivercontroller {
     public responcestucture<Driver> deleteDriver(@RequestParam long mob) {
     	return  ds.delDriverbymob(mob);
     }
-<<<<<<< HEAD
 
-    
-    
-	/***************driver vehicle  updating for cahing status as avilable
-=======
+
+	/***************driver vehicle  updating for cahing status as avilable*/
+
 	
-    /***************driver vehicle  updating for cahing status as avilable
->>>>>>> 59cb6f175cd822d95890d40bda273a946cb7958d
-	 * @return ******************/
+    /***************driver vehicle  updating for cahing status as avilable*/
+
+	
     @PatchMapping("/drivervachilstatusavalible")
     public responcestucture<Driver> updatedriverndvstatus(@RequestParam long mobnum, @RequestParam String status ) {
     	
     	return ds.updatedrivervechilestatu(mobnum , status);
     }
-<<<<<<< HEAD
+
     
     
-=======
-  
->>>>>>> 59cb6f175cd822d95890d40bda273a946cb7958d
-	
 
 }

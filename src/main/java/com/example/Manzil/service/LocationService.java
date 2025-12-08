@@ -11,22 +11,54 @@ import com.example.Manzil.service.Exception.InvalidLocation;
 @Service
 public class LocationService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+//    @Autowired
+//    private RestTemplate restTemplate;
+//
+//    public String getLocation(double lat, double lon) {
+//
+//        String url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lon;
+//
+//        Map response = restTemplate.getForObject(url, Map.class);
+//
+//        if (response != null && response.get("display_name") != null) {
+//            return response.get("display_name").toString();
+//        }
+//
+//        throw new InvalidLocation("Invalid latitude or longitude");
+//    }
+//	
+//	@Service
+//	public class LocationService {
 
-    public String getLocation(double lat, double lon) {
+	    @Autowired
+	    private RestTemplate restTemplate;
 
-        String url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lon;
+	    public String getCity(double lat, double lon) {
 
-        Map response = restTemplate.getForObject(url, Map.class);
+	        String url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lon;
 
-        if (response != null && response.get("display_name") != null) {
-            return response.get("display_name").toString();
-        }
+	        Map response = restTemplate.getForObject(url, Map.class);
 
-        throw new InvalidLocation("Invalid latitude or longitude");
-    }
-    
-    
-}
+	        if (response != null && response.get("address") != null) {
+
+	            Map address = (Map) response.get("address");
+
+	            if (address.get("city") != null) {
+	                return address.get("city").toString();
+	            }
+	            if (address.get("town") != null) {
+	                return address.get("town").toString();
+	            }
+	            if (address.get("village") != null) {
+	                return address.get("village").toString();
+	            }
+	        }
+
+	        throw new InvalidLocation("City not found for given location!");
+	    }
+	}
+
+//    
+//    
+
 

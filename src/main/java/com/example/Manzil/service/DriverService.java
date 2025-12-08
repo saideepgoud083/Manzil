@@ -218,7 +218,7 @@ public class DriverService {
 
 	    // update vehicle latitude & longitude
 	    Vehicle v1 = d.getV();
-	    String loc = ls.getLocation(latitude,longitude);
+	    String loc = ls.getCity(latitude,longitude);
 //        Vehicle v = new   Vehicle();
 //        v.setCurrentCity(loc);
 	    v1.setCurrentCity(loc);
@@ -270,35 +270,14 @@ public class DriverService {
 	}
 	
 	/***********updating driver and vechile statuss*/////
-	public responcestucture<Driver> updatedrivervechilestatu(long mobnum , String status ) {
+	public responcestucture<Driver> updatedrivervechilestatu1(long mobnum , String status ) {
 		     
 		  Driver d = dr.findByMobileNum(mobnum);
 
-<<<<<<< HEAD
-	
-	
-	
-	
-	
-	
-	
-
-}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-=======
 		    if (d == null) {
 		        throw new DriverNotFoundException();
 		    }
@@ -320,4 +299,4 @@ public class DriverService {
 	
 
 }
->>>>>>> 59cb6f175cd822d95890d40bda273a946cb7958d
+
