@@ -83,13 +83,14 @@ public class DriverService {
 	    v.setModel(dto.getVehicleModel());
 	    v.setCapacity(dto.getCapacity());
 	    v.setPricePerKm(dto.getPricePerKm());
-	    v.setVehicleId(d.getDriverId());
+	    v.setVehicleId(saved.getDriverId());
 	    v.setD(saved);
 	    Vehicle savedVehicle = vr.save(v);
 	    // Set vehicle inside driver
 	  
 	    // 4️⃣ Save Driver
 	    saved.setV(savedVehicle);
+	    dr.save(saved);
 
 	    // 5️⃣ Prepare response
 	    rs.setStatuscode(HttpStatus.CREATED.value());
@@ -209,7 +210,27 @@ public class DriverService {
 		   
 	}
 	
+	/***********updating driver and vechile statuss*/////
+	public responcestucture<Driver> updatedrivervechilestatu(long mobnum , String status ) {
+		     
+		  Driver d = dr.findByMobileNum(mobnum);
 
+		    if (d == null) {
+		        throw new DriverNotFoundException();
+		    }
+		    
+		     d.setDriverStatus(status);
+		     d.getV().setAvailabilityStatus(status);
+		    
+		Driver updated =    dr.save(d);
+		 responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver updated successfully");
+		    rs.setData(updated);
+		    return rs;
+
+		
+	}
 
 
 	

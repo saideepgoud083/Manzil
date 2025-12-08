@@ -14,38 +14,49 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoordinateService {
 
-    private static final String API_KEY = "YOUR_API_KEY";
+    private static final String API_KEY = "pk.af52375b8c5aef2277c3e8507fd12281";
 
     public double[] getCoordinates(String location) {
         try {
-            String url = "https://us1.locationiq.com/v1/search?key=" + API_KEY +
-                    "&q=" + URLEncoder.encode(location, StandardCharsets.UTF_8) +
-                    "&format=json";
+            String encodedLocation = URLEncoder.encode(location, StandardCharsets.UTF_8);
 
-            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            String urlStr = "https://us1.locationiq.com/v1/search?key=" + API_KEY +
+                            "&q=" + encodedLocation +
+                            "&format=json";
+
+            URL url = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String response = br.readLine();
+            int responseCode = conn.getResponseCode();
 
-            // Validate API response
-            if (response == null || response.equals("[]") || !response.trim().startsWith("[")) {
-                return null; // invalid location OR API error
+            if (responseCode != 200) {
+                System.out.println("LocationIQ ERROR CODE = " + responseCode);
+                return null;
             }
 
-            // Parse JSON array safely
-            JSONArray jsonArray = new JSONArray(response);
-            JSONObject obj = jsonArray.getJSONObject(0);
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
 
-            double lat = obj.getDouble("lat");
-            double lon = obj.getDouble("lon");
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
 
-            return new double[]{lat, lon};
+            // Parse JSON manually
+            String json = response.toString();
+            json = json.substring(1, json.length() - 1); // remove [ ]
+
+            String latStr = json.split("\"lat\":\"")[1].split("\"")[0];
+            String lonStr = json.split("\"lon\":\"")[1].split("\"")[0];
+
+            return new double[]{Double.parseDouble(latStr), Double.parseDouble(lonStr)};
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null; // invalid location or API error
+            return null;
         }
     }
 }
+

@@ -177,14 +177,7 @@ public class DriverDto {
 		this.pricePerKm = pricePerKm;
 	}
 
-	@Override
-	public String toString() {
-		return "DriverDto [licenseNum=" + licenseNum + ", upiId=" + upiId + ", driverName=" + driverName + ", age="
-				+ age + ", mobNum=" + mobNum + ", gender=" + gender + ", mailId=" + mailId + ", vehicleName="
-				+ vehicleName + ", vehicleNum=" + vehicleNum + ", vehicleType=" + vehicleType + ", vehicleModel="
-				+ vehicleModel + ", capacity=" + capacity + ", latitude=" + latitude + ", longitude=" + longitude
-				+ ", pricePerKm=" + pricePerKm + "]";
-	}
+
 	
 	
 	
