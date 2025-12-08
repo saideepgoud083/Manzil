@@ -9,6 +9,14 @@ public interface CustomerRepositry extends JpaRepository<Customer,Integer> {
 
 	//Customer findByMobileNum(long mob);
 
-	Customer findByMob(long mob);
+Customer findByMob(long mob);
+//
+//	Customer findCustomerBYmb(long mob);
+
+//Customer findCustomerBYmb(long mob);
+
+//Customer findCustomerBYmb(long mob);
+
+//Customer findCustomerBYmb(long mob);
 
 }
