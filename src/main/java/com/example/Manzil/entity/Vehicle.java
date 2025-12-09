@@ -1,5 +1,6 @@
 package com.example.Manzil.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -33,10 +34,12 @@ public class Vehicle {
 
 
    // @MapsId                   // 👉 important
-    @JoinColumn(name = "id")
-	@OneToOne
-	
-	
+//    @JoinColumn(name = "id")
+//	@OneToOne
+//	
+//	@JsonIgnore
+	 @OneToOne(mappedBy = "v")
+	    @JsonBackReference  
 	private Driver d ;
 
 	public Vehicle() {
@@ -138,13 +141,13 @@ public class Vehicle {
 		this.d = d;
 	}
 
-	@Override
-	public String toString() {
-		return "Vehicle [vehicleId=" + vehicleId + ", vehicleName=" + vehicleName + ", vehicleNum=" + vehicleNum
-				+ ", type=" + type + ", model=" + model + ", capacity=" + capacity + ", currentCity=" + currentCity
-				+ ", availabilityStatus=" + availabilityStatus + ", pricePerKm=" + pricePerKm +  "]";
-	}
-	
+//	@Override
+//	public String toString() {
+//		return "Vehicle [vehicleId=" + vehicleId + ", vehicleName=" + vehicleName + ", vehicleNum=" + vehicleNum
+//				+ ", type=" + type + ", model=" + model + ", capacity=" + capacity + ", currentCity=" + currentCity
+//				+ ", availabilityStatus=" + availabilityStatus + ", pricePerKm=" + pricePerKm +  "]";
+//	}
+//	
 	
 	
 

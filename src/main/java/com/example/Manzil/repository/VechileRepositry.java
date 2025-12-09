@@ -10,4 +10,6 @@ public interface VechileRepositry extends JpaRepository<Vehicle, Integer> {
 
     List<Vehicle> findByCurrentCity(String currentCity);
 
+	List<Vehicle> findByCurrentCityIgnoreCase(String sourceCity);
+
 }

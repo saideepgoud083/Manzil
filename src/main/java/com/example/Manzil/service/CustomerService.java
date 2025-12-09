@@ -250,20 +250,162 @@ return rs;
 //	    return rs;
 //	}
 
+//	public responcestucture<AvailabeVechileDto> seaAllAvalVechiles(long mob, String destinationlocation) {
+//
+//	    responcestucture<AvailabeVechileDto> rs = new responcestucture<>();
+//
+//	    // 1️⃣ Destination coordinates
+//	    double[] coords = cs.getCoordinates(destinationlocation);
+//	    if (coords == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Invalid destination location");
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    // 2️⃣ Customer location
+//	    Customer c = cr.findByMob(mob);
+//	    if (c == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Customer not found");
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    String sourceLocation = c.getCurrentLocation();
+//	    String cleanSource = sourceLocation.split(",")[0]; 
+//	    
+//    double[] coords_SL = cs.getCoordinates(cleanSource);
+//
+//	    if (coords_SL == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Invalid source location: " + sourceLocation);
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    // Extract lat/lon
+//	    double sourceLat = coords_SL[0];
+//	    double sourceLon = coords_SL[1];
+//	    double destinationLat = coords[0];
+//	    double destinationLon = coords[1];
+//
+//	    // 3️⃣ Calculate distance
+//	    double distance = cds.calculateDistance(sourceLat, sourceLon, destinationLat, destinationLon);
+//
+//	    // 4️⃣ Prepare DTO
+//	    AvailabeVechileDto avd = new AvailabeVechileDto();
+//	    avd.setC(c);
+//	    avd.setDistance(distance);
+//	    avd.setSourceLocation(sourceLocation);
+//	    avd.setDestinationLocation(destinationlocation);
+//
+//	    // 5️⃣ Fetch vehicles at source location
+//	    List<Vehicle> vlist = vr.findByCurrentCity(sourceLocation);
+//
+//	    for (Vehicle x : vlist) {
+//	        double fare = distance * x.getPricePerKm();
+//	        double time = distance / x.getCapacity();
+//
+//	        VechileDetails vd = new VechileDetails();
+//	        vd.setFare(fare);
+//	        vd.setEstimatedtimerequired(time + " hr");
+//	        vd.setV(x);
+//
+//	        avd.getAvailablevechicle().add(vd);
+//	    }
+//
+//	    // 6️⃣ Final response
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Available vehicles fetched successfully");
+//	    rs.setData(avd);
+//
+//	    return rs;
+//	}
+//	public responcestucture<AvailabeVechileDto> seaAllAvalVechiles(long mob, String destinationlocation) {
+//
+//	    responcestucture<AvailabeVechileDto> rs = new responcestucture<>();
+//
+//	    // 1️⃣ Destination Coordinates
+//	    double[] destCoords = cs.getCoordinates(destinationlocation);
+//	    if (destCoords == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Invalid destination location");
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    // 2️⃣ Customer
+//	    Customer c = cr.findByMob(mob);
+//	    if (c == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Customer not found");
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    String sourceCity = c.getCurrentLocation(); // already stored as only city
+//
+//	    // 3️⃣ Convert source city to coordinates
+//	    double[] srcCoords = cs.getCoordinates(sourceCity);
+//	    if (srcCoords == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Invalid source location: " + sourceCity);
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    // 4️⃣ Extract Lat & Long
+//	    double sourceLat = srcCoords[0];
+//	    double sourceLon = srcCoords[1];
+//	    double destLat = destCoords[0];
+//	    double destLon = destCoords[1];
+//
+//	    // 5️⃣ Calculate Distance
+//	    double distance = cds.calculateDistance(sourceLat, sourceLon, destLat, destLon);
+//
+//	    // 6️⃣ Prepare DTO
+//	    AvailabeVechileDto avd = new AvailabeVechileDto();
+//	    avd.setC(c);
+//	    avd.setDistance(distance);
+//	    avd.setSourceLocation(sourceCity);
+//	    avd.setDestinationLocation(destinationlocation);
+//
+//	    // 7️⃣ Get Available Vehicles in same city
+//	    List<Vehicle> vlist = vr.findByCurrentCityIgnoreCase(sourceCity);
+//
+//	    for (Vehicle x : vlist) {
+//	        double fare = distance * x.getPricePerKm();
+//	        double time = distance / x.getCapacity(); // 40 km/h avg speed
+//
+//	        VechileDetails vd = new VechileDetails();
+//	        vd.setFare(fare);
+//	        vd.setEstimatedtimerequired(time + " hr");
+//	        vd.setV(x);
+//         
+//	        avd.getAvailablevechicle().add(vd);
+//	    }
+//
+//	    // 8️⃣ Final Response
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Available vehicles fetched successfully");
+//	    rs.setData(avd);
+//	    return rs;
+//	}
 	public responcestucture<AvailabeVechileDto> seaAllAvalVechiles(long mob, String destinationlocation) {
 
 	    responcestucture<AvailabeVechileDto> rs = new responcestucture<>();
 
-	    // 1️⃣ Destination coordinates
-	    double[] coords = cs.getCoordinates(destinationlocation);
-	    if (coords == null) {
+	    // 1️⃣ Destination Coordinates
+	    double[] destCoords = cs.getCoordinates(destinationlocation);
+	    if (destCoords == null) {
 	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
-	        rs.setMasg("Invalid destination location");
+	        rs.setMasg("Invalid destination location: " + destinationlocation);
 	        rs.setData(null);
 	        return rs;
 	    }
 
-	    // 2️⃣ Customer location
+	    // 2️⃣ Customer
 	    Customer c = cr.findByMob(mob);
 	    if (c == null) {
 	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
@@ -272,54 +414,55 @@ return rs;
 	        return rs;
 	    }
 
-	    String sourceLocation = c.getCurrentLocation();
-	    String cleanSource = sourceLocation.split(",")[0]; 
-	    
-    double[] coords_SL = cs.getCoordinates(cleanSource);
+	    String sourceCity = c.getCurrentLocation(); // Only city stored
 
-	    if (coords_SL == null) {
+	    // 3️⃣ Convert source city to coordinates
+	    double[] srcCoords = cs.getCoordinates(sourceCity);
+	    if (srcCoords == null) {
 	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
-	        rs.setMasg("Invalid source location: " + sourceLocation);
+	        rs.setMasg("Invalid source location: " + sourceCity);
 	        rs.setData(null);
 	        return rs;
 	    }
 
-	    // Extract lat/lon
-	    double sourceLat = coords_SL[0];
-	    double sourceLon = coords_SL[1];
-	    double destinationLat = coords[0];
-	    double destinationLon = coords[1];
+	    // 4️⃣ Extract Lat & Long
+	    double sourceLat   = srcCoords[0];
+	    double sourceLon   = srcCoords[1];
+	    double destLat     = destCoords[0];
+	    double destLon     = destCoords[1];
 
-	    // 3️⃣ Calculate distance
-	    double distance = cds.calculateDistance(sourceLat, sourceLon, destinationLat, destinationLon);
+	    // 5️⃣ Calculate Distance
+	    double distance = cds.calculateDistance(sourceLat, sourceLon, destLat, destLon);
 
-	    // 4️⃣ Prepare DTO
+	    // 6️⃣ Prepare DTO
 	    AvailabeVechileDto avd = new AvailabeVechileDto();
 	    avd.setC(c);
 	    avd.setDistance(distance);
-	    avd.setSourceLocation(sourceLocation);
+	    avd.setSourceLocation(sourceCity);
 	    avd.setDestinationLocation(destinationlocation);
 
-	    // 5️⃣ Fetch vehicles at source location
-	    List<Vehicle> vlist = vr.findByCurrentCity(sourceLocation);
+	    // 7️⃣ Get Available Vehicles in Same City
+	    List<Vehicle> vlist = vr.findByCurrentCityIgnoreCase(sourceCity);
 
 	    for (Vehicle x : vlist) {
+
 	        double fare = distance * x.getPricePerKm();
-	        double time = distance / x.getCapacity();
+
+	        double avgSpeed = 40.0; // 40 km/h average
+	        double time = distance / avgSpeed;
 
 	        VechileDetails vd = new VechileDetails();
 	        vd.setFare(fare);
-	        vd.setEstimatedtimerequired(time + " hr");
+	        vd.setEstimatedtimerequired(String.format("%.2f hr", time));
 	        vd.setV(x);
 
 	        avd.getAvailablevechicle().add(vd);
 	    }
 
-	    // 6️⃣ Final response
+	    // 8️⃣ Final Response
 	    rs.setStatuscode(HttpStatus.OK.value());
 	    rs.setMasg("Available vehicles fetched successfully");
 	    rs.setData(avd);
-
 	    return rs;
 	}
 

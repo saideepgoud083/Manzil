@@ -117,6 +117,7 @@ public class DriverService {
 	    v.setCapacity(dto.getCapacity());
 	    v.setPricePerKm(dto.getPricePerKm());
 	    v.setVehicleId(saved.getDriverId());
+	    
 	    v.setD(saved);
 	    Vehicle savedVehicle = vr.save(v);
 	    // Set vehicle inside driver

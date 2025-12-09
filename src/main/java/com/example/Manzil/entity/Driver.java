@@ -2,6 +2,8 @@ package com.example.Manzil.entity;
 
 import jakarta.persistence.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 
@@ -21,9 +23,12 @@ public class Driver {
 	    private String gender;
 	    private String mailId;
 
+//	    @OneToOne(cascade = CascadeType.ALL)
+//	    @JoinColumn(name = "vehicle_id")
+//	   
 	    @OneToOne(cascade = CascadeType.ALL)
+	    @JsonManagedReference          // <-- This side will be serialized
 	    @JoinColumn(name = "vehicle_id")
-	   
 	    private Vehicle v;
 
 	public Driver() {
