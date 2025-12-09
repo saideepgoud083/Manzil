@@ -82,6 +82,12 @@ public class Drivercontroller {
     }
 
     
+    @PatchMapping("/updateAS")
+    public responcestucture<Driver> updateAverageSpeed(@RequestParam long mobnum, @RequestParam double averageSpeed ) {
+    	
+    	return ds.updateaverageSpeed(mobnum , averageSpeed);
+    }
+
     
 
 }

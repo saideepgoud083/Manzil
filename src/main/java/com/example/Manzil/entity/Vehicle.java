@@ -19,7 +19,9 @@ public class Vehicle {
 	
 	private String model;
 	
-	private int capacity   ;
+	private int capacity;
+	
+	private double averageSpeed;
 	
 	private String currentCity;
 	
@@ -34,19 +36,18 @@ public class Vehicle {
 
 
    // @MapsId                   // 👉 important
-//    @JoinColumn(name = "id")
-//	@OneToOne
-//	
-//	@JsonIgnore
+    @JoinColumn(name = "id")
+	
+	@JsonIgnore
 	 @OneToOne(mappedBy = "v")
-	    @JsonBackReference  
+	    @JsonBackReference
 	private Driver d ;
 
 	public Vehicle() {
 		super();
 	}
 
-	public Vehicle(int vehicleId, String vehicleName, String vehicleNum, String type, String model, int capacity,
+	public Vehicle(int vehicleId, String vehicleName, String vehicleNum, String type, String model, int capacity, double averageSpeed,
 			String currentCity, String availabilityStatus, double pricePerKm, Driver d) {
 		super();
 		this.vehicleId = vehicleId;
@@ -55,6 +56,7 @@ public class Vehicle {
 		this.type = type;
 		this.model = model;
 		this.capacity = capacity;
+		this.averageSpeed=averageSpeed;
 		this.currentCity = currentCity;
 		this.availabilityStatus = availabilityStatus;
 		this.pricePerKm = pricePerKm;
@@ -108,6 +110,15 @@ public class Vehicle {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	
+
+	public double getAverageSpeed() {
+		return averageSpeed;
+	}
+
+	public void setAverageSpeed(double averageSpeed) {
+		this.averageSpeed = averageSpeed;
+	}
 
 	public String getCurrentCity() {
 		return currentCity;
@@ -140,14 +151,17 @@ public class Vehicle {
 	public void setD(Driver d) {
 		this.d = d;
 	}
-
+//
 //	@Override
 //	public String toString() {
 //		return "Vehicle [vehicleId=" + vehicleId + ", vehicleName=" + vehicleName + ", vehicleNum=" + vehicleNum
-//				+ ", type=" + type + ", model=" + model + ", capacity=" + capacity + ", currentCity=" + currentCity
-//				+ ", availabilityStatus=" + availabilityStatus + ", pricePerKm=" + pricePerKm +  "]";
+//				+ ", type=" + type + ", model=" + model + ", capacity=" + capacity + ", averageSpeed=" + averageSpeed
+//				+ ", currentCity=" + currentCity + ", availabilityStatus=" + availabilityStatus + ", pricePerKm="
+//				+ pricePerKm + ", d=" + d + "]";
 //	}
-//	
+
+	
+	
 	
 	
 
