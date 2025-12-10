@@ -448,11 +448,10 @@ return rs;
 
 	        double fare = distance * x.getPricePerKm();
 
-<<<<<<< HEAD
+
 	        double avgSpeed = x.getAverageSpeed(); 
-=======
-	        double avgSpeed = x.getAverageSpeed();// 40 km/h average
->>>>>>> bc64de6c87ccd71b993ade8b1939a4cc54294844
+
+
 	        double time = distance / avgSpeed;
 
 	        VechileDetails vd = new VechileDetails();
