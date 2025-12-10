@@ -108,6 +108,7 @@ public class DriverService {
 	    d.setGender(dto.getGender());
 	    d.setMailId(dto.getMailId());
 	    
+	    
 	    Driver saved = dr.save(d);
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
@@ -117,7 +118,7 @@ public class DriverService {
 	    v.setCapacity(dto.getCapacity());
 	    v.setPricePerKm(dto.getPricePerKm());
 	    v.setVehicleId(saved.getDriverId());
-	    
+	    v.setAverageSpeed(dto.getAverageSpeed());
 	    v.setD(saved);
 	    Vehicle savedVehicle = vr.save(v);
 	    // Set vehicle inside driver
@@ -297,6 +298,30 @@ public class DriverService {
 	}
 
 
+	public responcestucture<Driver> updateaverageSpeed(long mobnum ,double averageSpeed ) {
+	     
+		  Driver d = dr.findByMobileNum(mobnum);
+
+
+
+
+
+		    if (d == null) {
+		        throw new DriverNotFoundException();
+		    }
+		    
+		   
+		     d.getV().setAverageSpeed(averageSpeed);
+		    
+		Driver updated =    dr.save(d);
+		 responcestucture<Driver> rs = new responcestucture<>();
+		   rs.setStatuscode(HttpStatus.OK.value() );
+		    rs.setMasg("Driver updated successfully");
+		    rs.setData(updated);
+		    return rs;
+
+		
+	}
 	
 
 }
