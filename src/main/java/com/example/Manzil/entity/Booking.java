@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -19,7 +20,7 @@ public class Booking {
 
 @ManyToOne
 
-	private Driver driver;
+	private Vehicle  veh;
 	private String sourcelocation;
 	private String destinationlocation;
 	private double distancetravlled;
@@ -28,12 +29,15 @@ public class Booking {
 	private String datebooked;
 	@OneToOne
 	private Payment payment;
-	public Booking(int id, Customer cust, Driver driver, String sourcelocation, String destinationlocation,
-			double distancetravlled, double fare, String estimatedtimerequired, String datebooked, Payment payment) {
+	private String paymentStatus="not paid";
+	private String bookingStatus="pending";
+	public Booking(int id, Customer cust, Vehicle veh, String sourcelocation, String destinationlocation,
+			double distancetravlled, double fare, String estimatedtimerequired, String datebooked, Payment payment,
+			String paymentStatus, String bookingStatus) {
 		super();
 		this.id = id;
 		this.cust = cust;
-		this.driver = driver;
+		this.veh = veh;
 		this.sourcelocation = sourcelocation;
 		this.destinationlocation = destinationlocation;
 		this.distancetravlled = distancetravlled;
@@ -41,6 +45,8 @@ public class Booking {
 		this.estimatedtimerequired = estimatedtimerequired;
 		this.datebooked = datebooked;
 		this.payment = payment;
+		this.paymentStatus = paymentStatus;
+		this.bookingStatus = bookingStatus;
 	}
 	public Booking() {
 		super();
@@ -57,11 +63,11 @@ public class Booking {
 	public void setCust(Customer cust) {
 		this.cust = cust;
 	}
-	public Driver getDriver() {
-		return driver;
+	public Vehicle getVeh() {
+		return veh;
 	}
-	public void setDriver(Driver driver) {
-		this.driver = driver;
+	public void setVeh(Vehicle veh) {
+		this.veh = veh;
 	}
 	public String getSourcelocation() {
 		return sourcelocation;
@@ -105,13 +111,20 @@ public class Booking {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
-	@Override
-	public String toString() {
-		return "Booking [id=" + id + ", cust=" + cust + ", driver=" + driver + ", sourcelocation=" + sourcelocation
-				+ ", destinationlocation=" + destinationlocation + ", distancetravlled=" + distancetravlled + ", fare="
-				+ fare + ", estimatedtimerequired=" + estimatedtimerequired + ", datebooked=" + datebooked
-				+ ", payment=" + payment + "]";
+	public String getPaymentStatus() {
+		return paymentStatus;
 	}
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}
+	
+	
 	
 	
 }
