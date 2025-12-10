@@ -26,6 +26,8 @@ public class DriverDto {
 	
 	private int capacity;
 	
+	private double averageSpeed;
+	
 	private double latitude;
 	
 	private double longitude;
@@ -37,7 +39,7 @@ public class DriverDto {
 	}
 
 	public DriverDto(String licenseNum, String upiId, String driverName, int age, long mobNum, String gender,
-			String mailId, String vehicleName, String vehicleNum, String vehicleType, String vehicleModel, int capacity,
+			String mailId, String vehicleName, String vehicleNum, String vehicleType, String vehicleModel, int capacity,double averageSpeed,
 			double latitude, double longitude, double pricePerKm) {
 		super();
 		this.licenseNum = licenseNum;
@@ -52,6 +54,7 @@ public class DriverDto {
 		this.vehicleType = vehicleType;
 		this.vehicleModel = vehicleModel;
 		this.capacity = capacity;
+		this.averageSpeed=averageSpeed;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.pricePerKm = pricePerKm;
@@ -147,6 +150,15 @@ public class DriverDto {
 
 	public int getCapacity() {
 		return capacity;
+	}
+	
+
+	public double getAverageSpeed() {
+		return averageSpeed;
+	}
+
+	public void setAverageSpeed(double averageSpeed) {
+		this.averageSpeed = averageSpeed;
 	}
 
 	public void setCapacity(int capacity) {

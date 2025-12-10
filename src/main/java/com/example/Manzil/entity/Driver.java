@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 @Entity
 public class Driver {
 
-	 @Id
+	     @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private int driverId;
 
