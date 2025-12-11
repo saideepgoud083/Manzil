@@ -2,6 +2,7 @@ package com.example.Manzil.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Manzil.responcestucture;
@@ -9,6 +10,7 @@ import com.example.Manzil.Dto.AvailabeVechileDto;
 import com.example.Manzil.Dto.BookingDto;
 import com.example.Manzil.entity.Booking;
 import com.example.Manzil.entity.Customer;
+import com.example.Manzil.entity.Driver;
 import com.example.Manzil.entity.Vehicle;
 import com.example.Manzil.repository.CustomerRepositry;
 import com.example.Manzil.repository.DriverRepository;
@@ -16,6 +18,7 @@ import com.example.Manzil.repository.VechileRepositry;
 import com.example.Manzil.repository.bookingRepository;
 import com.example.Manzil.service.Exception.vechilenotfound;
 import java.time.*;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -29,8 +32,68 @@ public class BookingService {
 	@Autowired
 	private	DriverRepository dr;
 	
+//
+//	public responcestucture<Booking> bookVechilee(long mob, BookingDto bd) {
+//
+//	    responcestucture<Booking> rs = new responcestucture<>();
+//
+//	    Customer c = cr.findByMob(mob);
+//	    if (c == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Customer not found");
+//	        rs.setData(null);
+//	        return rs;
+//	    }
+//
+//	    int vechileid = bd.getV().getVehicleId();
+//
+//	    Vehicle v = vr.findById(vechileid)
+//	                  .orElseThrow(() -> new vechilenotfound());
+//
+//	    LocalDateTime now = LocalDateTime.now();
+//
+//	    Booking b = new Booking();
+//	    b.setCust(c);
+//	    b.setVeh(v);
+//	    b.setSourcelocation(bd.getSourcelocation());
+//	    b.setDestinationlocation(bd.getDestinationlocation());
+//	    b.setFare(bd.getFare());
+//	    b.setDistancetravlled(bd.getDistancetravelled());
+//	    b.setEstimatedtimerequired(bd.getEstimatedtime());
+//	    b.setDatebooked(now.toString());
+//b.setBookingStatus("BOOKED");
+//
+//	    Booking saved = br.save(b);
+//	   
+//
+//	    // Maintain relationships
+//	    c.getBlist().add(saved);
+//	    v.getD().getBlist().add(saved);
+//
+//	    v.setAvailabilityStatus("BOOKED");
+//	    v.getD().setDriverStatus("BOOKED");
+//	    
+//	    // Important Saves!
+//	    cr.save(c);
+//	    dr.save(v.getD());
+//	    vr.save(v);   // FIX — missing in your code
+//
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Booking Successfully");
+//	    rs.setData(saved);
+//	    return rs;
+//	}
+
+	
+	
+	
+	
+	
+	
+	
 	public responcestucture<Booking> bookVechilee(long mob, BookingDto bd) {
 
+<<<<<<< HEAD
 		  responcestucture<Booking> rs = new responcestucture<>();
 		 Customer c = cr.findByMob(mob);
 		    if (c == null) {
@@ -68,10 +131,71 @@ public class BookingService {
         rs.setMasg("Booking Successfully");
         rs.setData(b);
         return rs;
+=======
+	    responcestucture<Booking> rs = new responcestucture<>();
 
-		
+	    // 1️⃣ Find customer
+	    Customer c = cr.findByMob(mob);
+	    if (c == null) {
+	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+	        rs.setMasg("Customer not found with mobile: " + mob);
+	        rs.setData(null);
+	        return rs;
+	    }
+>>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
+
+	    // 2️⃣ Get vehicle from DTO
+	    int vehicleId = bd.getV().getVehicleId();
+	    Vehicle v = vr.findById(vehicleId)
+	                  .orElseThrow(() -> new vechilenotfound());
+
+	    // 3️⃣ Get driver from the vehicle
+	    Driver d = v.getD();
+	    if (d == null) {
+	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+	        rs.setMasg("Driver not assigned to this vehicle");
+	        rs.setData(null);
+	        return rs;
+	    }
+
+	    // 4️⃣ Create booking object
+	    LocalDateTime now = LocalDateTime.now();
+
+	    Booking b = new Booking();
+	    b.setCust(c);
+	    b.setVeh(v);
+	    b.getVeh().setD(d);//(d);                             // Important: add driver to booking
+	    b.setSourcelocation(bd.getSourcelocation());
+	    b.setDestinationlocation(bd.getDestinationlocation());
+	    b.setFare(bd.getFare());
+	    b.setDistancetravlled(bd.getDistancetravelled());
+	    b.setEstimatedtimerequired(bd.getEstimatedtime());
+	    b.setDatebooked(now.toString());
+	    b.setBookingStatus("BOOKED");
+
+	    // 5️⃣ Save booking
+	    Booking saved = br.save(b);
+
+	    // 6️⃣ Maintain relationships
+	    c.getBlist().add(saved);      // add to customer booking history
+	    d.getBlist().add(saved);      // add to driver booking history (Correct)
+	    v.setAvailabilityStatus("BOOKED");
+	    d.setDriverStatus("BOOKED");
+
+	    // 7️⃣ Save all affected entities
+	    cr.save(c);
+	    dr.save(d);
+	    vr.save(v);
+
+	    // 8️⃣ Response
+	    rs.setStatuscode(HttpStatus.ACCEPTED.value());
+	    rs.setMasg("Booking completed successfully");
+	    rs.setData(saved);
+
+	    return rs;
 	}
 
+<<<<<<< HEAD
 	public void SeeallbookingHistory(long mob) {
 		  responcestucture<Booking> rs = new responcestucture<>();
 		 Customer c = cr.findByMob(mob);
@@ -83,5 +207,71 @@ public class BookingService {
 		    }
 		
 	}
+=======
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	public ResponseEntity<responcestucture<List<Booking>>> seebookinghistory(long mob) {
+//
+//	    responcestucture<List<Booking>> rs = new responcestucture<>();
+//
+//	    // 1. Fetch customer
+//	    Customer c = cr.findByMob(mob);
+//
+//	    // 2. If customer not found → return 400
+//	    if (c == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Customer not found for mobile: " + mob);
+//	        rs.setData(null);
+//	        return new ResponseEntity<>(rs, HttpStatus.BAD_REQUEST);
+//	    }
+//
+//	    // 3. Get booking list
+//	    List<Booking> blist = c.getBlist();
+//
+//	    // 4. Success response
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Booking history fetched successfully");
+//	    rs.setData(blist);
+//
+//	    return new ResponseEntity<responcestucture<List<Booking>>>(rs, HttpStatus.OK);
+//	}
+
+//	public ResponseEntity<responcestucture<List<Booking>>> seeDriverbookhistory(long mob) {
+//
+//	    responcestucture<List<Booking>> rs = new responcestucture<>();
+//
+//	    // 1. Fetch driver
+//	    Driver d = dr.findByMobileNum(mob);
+//
+//	    // 2. If driver not found
+//	    if (d == null) {
+//	        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+//	        rs.setMasg("Driver not found for mobile: " + mob);
+//	        rs.setData(null);
+//	        return new ResponseEntity<>(rs, HttpStatus.BAD_REQUEST);
+//	    }
+//
+//	    // 3. Fetch booking list
+//	    List<Booking> blist = d.getBlist();
+//
+//	    // 4. Success
+//	    rs.setStatuscode(HttpStatus.OK.value());
+//	    rs.setMasg("Driver booking history fetched successfully");
+//	    rs.setData(blist);
+//
+//	    return new ResponseEntity<>(rs, HttpStatus.OK);
+//	}
+//
+//
+//	
+
+>>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
 
 }

@@ -1,12 +1,13 @@
 package com.example.Manzil.entity;
 
 import java.util.List;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.*;
-
 
 @Entity
 public class Driver {
@@ -31,13 +32,17 @@ public class Driver {
 	    @JsonManagedReference          // <-- This side will be serialized
 	    @JoinColumn(name = "vehicle_id")
 	    private Vehicle v;
+<<<<<<< HEAD
 	    
 
 	  //  @OneToMany
 	    @JoinTable(name = "driver_bookings")
 	    @JsonIgnore
+=======
+	    @JsonIgnore
+	    @OneToMany( cascade = CascadeType.ALL)
+>>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
 	    private List<Booking> blist;
-
 		public Driver(int driverId, String licenseNum, String upiId, String driverName, String driverStatus, int age,
 				long mobileNum, String gender, String mailId, Vehicle v, List<Booking> blist) {
 			super();
@@ -53,109 +58,81 @@ public class Driver {
 			this.v = v;
 			this.blist = blist;
 		}
-
 		public Driver() {
 			super();
 		}
-
 		public int getDriverId() {
 			return driverId;
 		}
-
 		public void setDriverId(int driverId) {
 			this.driverId = driverId;
 		}
-
 		public String getLicenseNum() {
 			return licenseNum;
 		}
-
 		public void setLicenseNum(String licenseNum) {
 			this.licenseNum = licenseNum;
 		}
-
 		public String getUpiId() {
 			return upiId;
 		}
-
 		public void setUpiId(String upiId) {
 			this.upiId = upiId;
 		}
-
 		public String getDriverName() {
 			return driverName;
 		}
-
 		public void setDriverName(String driverName) {
 			this.driverName = driverName;
 		}
-
 		public String getDriverStatus() {
 			return driverStatus;
 		}
-
 		public void setDriverStatus(String driverStatus) {
 			this.driverStatus = driverStatus;
 		}
-
 		public int getAge() {
 			return age;
 		}
-
 		public void setAge(int age) {
 			this.age = age;
 		}
-
 		public long getMobileNum() {
 			return mobileNum;
 		}
-
 		public void setMobileNum(long mobileNum) {
 			this.mobileNum = mobileNum;
 		}
-
 		public String getGender() {
 			return gender;
 		}
-
 		public void setGender(String gender) {
 			this.gender = gender;
 		}
-
 		public String getMailId() {
 			return mailId;
 		}
-
 		public void setMailId(String mailId) {
 			this.mailId = mailId;
 		}
-
 		public Vehicle getV() {
 			return v;
 		}
-
 		public void setV(Vehicle v) {
 			this.v = v;
 		}
-
 		public List<Booking> getBlist() {
 			return blist;
 		}
-
 		public void setBlist(List<Booking> blist) {
 			this.blist = blist;
 		}
 
-		@Override
-		public String toString() {
-			return "Driver [driverId=" + driverId + ", licenseNum=" + licenseNum + ", upiId=" + upiId + ", driverName="
-					+ driverName + ", driverStatus=" + driverStatus + ", age=" + age + ", mobileNum=" + mobileNum
-					+ ", gender=" + gender + ", mailId=" + mailId + ", v=" + v + ", blist=" + blist + "]";
-		}
+	    
+	    
 
-	
-	
-	
-	
 
 }
+
+
+
