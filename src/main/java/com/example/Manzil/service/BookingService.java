@@ -31,8 +31,7 @@ public class BookingService {
 	
 	public responcestucture<Booking> bookVechilee(long mob, BookingDto bd) {
 
-	    responcestucture<Booking> rs = new responcestucture<>();
-		// TODO Auto-generated method stub
+		  responcestucture<Booking> rs = new responcestucture<>();
 		 Customer c = cr.findByMob(mob);
 		    if (c == null) {
 		        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
@@ -56,6 +55,7 @@ public class BookingService {
 		 b.setDistancetravlled(bd.getDistancetravelled());
 		 b.setEstimatedtimerequired(bd.getEstimatedtime());
 		 b.setDatebooked(now+"");
+		 
 		 br.save(b);
 		 
 		 c.getBlist().add(b);
@@ -69,6 +69,18 @@ public class BookingService {
         rs.setData(b);
         return rs;
 
+		
+	}
+
+	public void SeeallbookingHistory(long mob) {
+		  responcestucture<Booking> rs = new responcestucture<>();
+		 Customer c = cr.findByMob(mob);
+		    if (c == null) {
+		        rs.setStatuscode(HttpStatus.BAD_REQUEST.value());
+		        rs.setMasg("Customer not found");
+		        rs.setData(null);
+		     //   return rs;
+		    }
 		
 	}
 

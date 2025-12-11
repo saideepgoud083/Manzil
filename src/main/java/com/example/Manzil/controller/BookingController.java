@@ -1,6 +1,7 @@
 package com.example.Manzil.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,5 +19,13 @@ public class BookingController {
 	@PostMapping("/bookVechile")
 	public responcestucture<Booking> bookVechile(@RequestParam long mob, @RequestBody BookingDto bd ) {
 		return bs.bookVechilee(mob,bd);
+	}
+	 
+	
+	@GetMapping("/seeallbooingcoustomer")
+	public void SeeallbookingHistory(@RequestParam long mob) {
+		
+		 bs.SeeallbookingHistory(mob);
+		
 	}
 }

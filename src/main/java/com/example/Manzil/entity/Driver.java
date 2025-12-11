@@ -2,6 +2,7 @@ package com.example.Manzil.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -31,7 +32,10 @@ public class Driver {
 	    @JoinColumn(name = "vehicle_id")
 	    private Vehicle v;
 	    
-	    @OneToMany( cascade = CascadeType.ALL)
+
+	  //  @OneToMany
+	    @JoinTable(name = "driver_bookings")
+	    @JsonIgnore
 	    private List<Booking> blist;
 
 		public Driver(int driverId, String licenseNum, String upiId, String driverName, String driverStatus, int age,

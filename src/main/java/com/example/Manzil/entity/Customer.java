@@ -2,6 +2,8 @@ package com.example.Manzil.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,9 @@ public class Customer {
  private long mob;
  private String emailid;
  private String currentLocation;
- @OneToMany( cascade = CascadeType.ALL)
+// @OneToMany( cascade = CascadeType.ALL)
+ @OneToMany(mappedBy="cust", cascade=CascadeType.ALL)
+ @JsonIgnore   // 👈 ADD THIS
  private List<Booking> blist;
 public Customer(int id, String name, int age, String gender, long mob, String emailid, String currentLocation,
 		List<Booking> blist) {
@@ -84,11 +88,11 @@ public List<Booking> getBlist() {
 public void setBlist(List<Booking> blist) {
 	this.blist = blist;
 }
-@Override
-public String toString() {
-	return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", mob=" + mob
-			+ ", emailid=" + emailid + ", currentLocation=" + currentLocation + ", blist=" + blist + "]";
-}
- 
+//@Override
+//public String toString() {
+//	return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", mob=" + mob
+//			+ ", emailid=" + emailid + ", currentLocation=" + currentLocation + ", blist=" + blist + "]";
+//}
+// 
  
 }

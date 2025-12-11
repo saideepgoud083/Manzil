@@ -83,59 +83,95 @@ public class DriverService {
 //	   vr.save(v);
 //		
 //	}
+//	public responcestucture<Driver> registerDriver(DriverDto dto) {
+//
+//	    responcestucture<Driver> rs = new responcestucture<>();
+//
+//	    // ⿡ Check if driver already exists using license number
+//	    Driver dl = dr.findByLicenseNum(dto.getLicenseNum());
+//	    if (dl != null) {
+//	        throw new DriverAlreadyExistsException();  // same as doctor already exists exception
+//	    }
+//
+//	    // ⿢ Create Vehicle
+//	    Driver d = new Driver();
+//	    // ⿢ Create Vehicle
+//	   
+//
+//	    // ⿣ Create Driver object
+//	   
+//	    d.setLicenseNum(dto.getLicenseNum());
+//	    d.setUpiId(dto.getUpiId());
+//	    d.setDriverName(dto.getDriverName());
+//	    d.setAge(dto.getAge());
+//	    d.setMobileNum(dto.getMobNum());
+//	    d.setGender(dto.getGender());
+//	    d.setMailId(dto.getMailId());
+//	    
+//	    
+//	    Driver saved = dr.save(d);
+//	    Vehicle v = new Vehicle();
+//	    v.setVehicleName(dto.getVehicleName());
+//	    v.setVehicleNum(dto.getVehicleNum());
+//	    v.setType(dto.getVehicleType());
+//	    v.setModel(dto.getVehicleModel());
+//	    v.setCapacity(dto.getCapacity());
+//	    v.setPricePerKm(dto.getPricePerKm());
+//	  //  v.setVehicleId(saved.getDriverId());
+//	    v.setAverageSpeed(dto.getAverageSpeed());
+//	    v.setD(saved);
+//	    Vehicle savedVehicle = vr.save(v);
+//	    // Set vehicle inside driver
+//	  
+//	    // ⿤ Save Driver
+//	    saved.setV(savedVehicle);
+//	    dr.save(saved);
+//
+//	    // ⿥ Prepare response
+//	    rs.setStatuscode(HttpStatus.CREATED.value());
+//	    rs.setMasg("Driver registered successfully");
+//	    rs.setData(saved);
+//
+//	    return rs;
+//	}
+
 	public responcestucture<Driver> registerDriver(DriverDto dto) {
 
 	    responcestucture<Driver> rs = new responcestucture<>();
 
-	    // ⿡ Check if driver already exists using license number
-	    Driver dl = dr.findByLicenseNum(dto.getLicenseNum());
-	    if (dl != null) {
-	        throw new DriverAlreadyExistsException();  // same as doctor already exists exception
-	    }
+	    Driver drObj = new Driver();
+	    drObj.setLicenseNum(dto.getLicenseNum());
+	    drObj.setUpiId(dto.getUpiId());
+	    drObj.setDriverName(dto.getDriverName());
+	    drObj.setAge(dto.getAge());
+	    drObj.setMobileNum(dto.getMobNum());
+	    drObj.setGender(dto.getGender());
+	    drObj.setMailId(dto.getMailId());
 
-	    // ⿢ Create Vehicle
-	    Driver d = new Driver();
-	    // ⿢ Create Vehicle
-	   
-
-	    // ⿣ Create Driver object
-	   
-	    d.setLicenseNum(dto.getLicenseNum());
-	    d.setUpiId(dto.getUpiId());
-	    d.setDriverName(dto.getDriverName());
-	    d.setAge(dto.getAge());
-	    d.setMobileNum(dto.getMobNum());
-	    d.setGender(dto.getGender());
-	    d.setMailId(dto.getMailId());
-	    
-	    
-	    Driver saved = dr.save(d);
+	    // Vehicle Linking
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
 	    v.setVehicleNum(dto.getVehicleNum());
 	    v.setType(dto.getVehicleType());
 	    v.setModel(dto.getVehicleModel());
 	    v.setCapacity(dto.getCapacity());
-	    v.setPricePerKm(dto.getPricePerKm());
-	    v.setVehicleId(saved.getDriverId());
 	    v.setAverageSpeed(dto.getAverageSpeed());
-	    v.setD(saved);
-	    Vehicle savedVehicle = vr.save(v);
-	    // Set vehicle inside driver
-	  
-	    // ⿤ Save Driver
-	    saved.setV(savedVehicle);
-	    dr.save(saved);
+	    v.setPricePerKm(dto.getPricePerKm());
+	    v.setAvailabilityStatus("Available");
 
-	    // ⿥ Prepare response
+	    // Attach both sides
+	    v.setD(drObj);
+	    drObj.setV(v);
+
+	    // 👉 Only ONE SAVE Needed
+	    Driver saved = dr.save(drObj);
+
 	    rs.setStatuscode(HttpStatus.CREATED.value());
 	    rs.setMasg("Driver registered successfully");
 	    rs.setData(saved);
-
 	    return rs;
 	}
 
-	
 	
 	//find
 	public responcestucture<Driver> findDriver(int id) {

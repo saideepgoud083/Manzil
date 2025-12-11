@@ -2,12 +2,14 @@ package com.example.Manzil.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
+@JsonIgnoreProperties({"d"})
 @Entity
 public class Vehicle {
 	@Id
@@ -31,16 +33,11 @@ public class Vehicle {
 
 	
 
-
-//    @MapsId                   // 👉 important
-
-
-   // @MapsId                   // 👉 important
-    @JoinColumn(name = "id")
-	
-	@JsonIgnore
-	 @OneToOne(mappedBy = "v")
-	    @JsonBackReference
+	@JsonIgnoreProperties({"d"})
+	@OneToOne
+	@MapsId
+	@JsonBackReference
+	@JoinColumn(name = "vehicle_id")	
 	private Driver d ;
 
 	public Vehicle() {
