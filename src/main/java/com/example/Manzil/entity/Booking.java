@@ -1,5 +1,7 @@
 package com.example.Manzil.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,8 +21,9 @@ public class Booking {
 	private Customer cust;
 
 @ManyToOne
-
+@JsonIgnore
 	private Vehicle  veh;
+
 	private String sourcelocation;
 	private String destinationlocation;
 	private double distancetravlled;
