@@ -1,10 +1,7 @@
 package com.example.Manzil.entity;
 
 import java.util.List;
-<<<<<<< HEAD
 
-=======
->>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -25,111 +22,200 @@ public class Driver {
 	    private String gender;
 	    private String mailId;
 
-//	    @OneToOne(cascade = CascadeType.ALL)
-//	    @JoinColumn(name = "vehicle_id")
-//	   
-	    @OneToOne(cascade = CascadeType.ALL)
-	    @JsonManagedReference          // <-- This side will be serialized
-	    @JoinColumn(name = "vehicle_id")
-	    private Vehicle v;
-<<<<<<< HEAD
+
+	   
+	    @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL)
+	    @JsonManagedReference
+
+	    private Vehicle vehicle;
+
 	    
 
-	  //  @OneToMany
-	    @JoinTable(name = "driver_bookings")
-	    @JsonIgnore
-=======
-	    @JsonIgnore
+
 	    @OneToMany( cascade = CascadeType.ALL)
->>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
+
 	    private List<Booking> blist;
-		public Driver(int driverId, String licenseNum, String upiId, String driverName, String driverStatus, int age,
-				long mobileNum, String gender, String mailId, Vehicle v, List<Booking> blist) {
-			super();
-			this.driverId = driverId;
-			this.licenseNum = licenseNum;
-			this.upiId = upiId;
-			this.driverName = driverName;
-			this.driverStatus = driverStatus;
-			this.age = age;
-			this.mobileNum = mobileNum;
-			this.gender = gender;
-			this.mailId = mailId;
-			this.v = v;
-			this.blist = blist;
-		}
+
+
+
+
 		public Driver() {
 			super();
 		}
-		public int getDriverId() {
-			return driverId;
-		}
-		public void setDriverId(int driverId) {
+
+
+
+
+		public Driver(int driverId, String licenseNum, String upiId, String driverName, String driverStatus, int age,
+				long mobileNum, String gender, String mailId, Vehicle vehicle, List<Booking> blist) {
+			super();
 			this.driverId = driverId;
-		}
-		public String getLicenseNum() {
-			return licenseNum;
-		}
-		public void setLicenseNum(String licenseNum) {
 			this.licenseNum = licenseNum;
-		}
-		public String getUpiId() {
-			return upiId;
-		}
-		public void setUpiId(String upiId) {
 			this.upiId = upiId;
-		}
-		public String getDriverName() {
-			return driverName;
-		}
-		public void setDriverName(String driverName) {
 			this.driverName = driverName;
-		}
-		public String getDriverStatus() {
-			return driverStatus;
-		}
-		public void setDriverStatus(String driverStatus) {
 			this.driverStatus = driverStatus;
-		}
-		public int getAge() {
-			return age;
-		}
-		public void setAge(int age) {
 			this.age = age;
-		}
-		public long getMobileNum() {
-			return mobileNum;
-		}
-		public void setMobileNum(long mobileNum) {
 			this.mobileNum = mobileNum;
-		}
-		public String getGender() {
-			return gender;
-		}
-		public void setGender(String gender) {
 			this.gender = gender;
-		}
-		public String getMailId() {
-			return mailId;
-		}
-		public void setMailId(String mailId) {
 			this.mailId = mailId;
-		}
-		public Vehicle getV() {
-			return v;
-		}
-		public void setV(Vehicle v) {
-			this.v = v;
-		}
-		public List<Booking> getBlist() {
-			return blist;
-		}
-		public void setBlist(List<Booking> blist) {
+			this.vehicle = vehicle;
 			this.blist = blist;
 		}
 
-	    
-	    
+
+
+
+		public int getDriverId() {
+			return driverId;
+		}
+
+
+
+
+		public void setDriverId(int driverId) {
+			this.driverId = driverId;
+		}
+
+
+
+
+		public String getLicenseNum() {
+			return licenseNum;
+		}
+
+
+
+
+		public void setLicenseNum(String licenseNum) {
+			this.licenseNum = licenseNum;
+		}
+
+
+
+
+		public String getUpiId() {
+			return upiId;
+		}
+
+
+
+
+		public void setUpiId(String upiId) {
+			this.upiId = upiId;
+		}
+
+
+
+
+		public String getDriverName() {
+			return driverName;
+		}
+
+
+
+
+		public void setDriverName(String driverName) {
+			this.driverName = driverName;
+		}
+
+
+
+
+		public String getDriverStatus() {
+			return driverStatus;
+		}
+
+
+
+
+		public void setDriverStatus(String driverStatus) {
+			this.driverStatus = driverStatus;
+		}
+
+
+
+
+		public int getAge() {
+			return age;
+		}
+
+
+
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+
+
+
+
+		public long getMobileNum() {
+			return mobileNum;
+		}
+
+
+
+
+		public void setMobileNum(long mobileNum) {
+			this.mobileNum = mobileNum;
+		}
+
+
+
+
+		public String getGender() {
+			return gender;
+		}
+
+
+
+
+		public void setGender(String gender) {
+			this.gender = gender;
+		}
+
+
+
+
+		public String getMailId() {
+			return mailId;
+		}
+
+
+
+
+		public void setMailId(String mailId) {
+			this.mailId = mailId;
+		}
+
+
+
+
+		public Vehicle getVehicle() {
+			return vehicle;
+		}
+
+
+
+
+		public void setVehicle(Vehicle vehicle) {
+			this.vehicle = vehicle;
+		}
+
+
+
+
+		public List<Booking> getBlist() {
+			return blist;
+		}
+
+
+
+
+		public void setBlist(List<Booking> blist) {
+			this.blist = blist;
+		}
+	
 
 
 }

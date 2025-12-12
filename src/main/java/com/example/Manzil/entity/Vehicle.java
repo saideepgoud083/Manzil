@@ -9,9 +9,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
-@JsonIgnoreProperties({"d"})
+
 @Entity
 public class Vehicle {
 	@Id
@@ -34,45 +34,12 @@ public class Vehicle {
 	private double pricePerKm;
 
 	
-
-<<<<<<< HEAD
-	@JsonIgnoreProperties({"d"})
 	@OneToOne
+	@JoinColumn(name = "vehicle_id")
 	@MapsId
 	@JsonBackReference
-	@JoinColumn(name = "vehicle_id")	
-=======
 
-
-    @JoinColumn(name = "id")
-	@OneToOne
-	@JsonIgnore
-	
->>>>>>> 50b207903face441d17d2b687b30da9f0b16c261
-	private Driver d ;
-
-
-
-
-
-	public Vehicle(int vehicleId, String vehicleName, String vehicleNum, String type, String model, int capacity,
-			double averageSpeed, String currentCity, String availabilityStatus, double pricePerKm, Driver d) {
-		super();
-		this.vehicleId = vehicleId;
-		this.vehicleName = vehicleName;
-		this.vehicleNum = vehicleNum;
-		this.type = type;
-		this.model = model;
-		this.capacity = capacity;
-		this.averageSpeed = averageSpeed;
-		this.currentCity = currentCity;
-		this.availabilityStatus = availabilityStatus;
-		this.pricePerKm = pricePerKm;
-		this.d = d;
-	}
-
-
-
+	private Driver driver ;
 
 
 	public Vehicle() {
@@ -80,7 +47,21 @@ public class Vehicle {
 	}
 
 
-
+	public Vehicle(int vehicleId, String vehicleName, String vehicleNum, String type, String model, int capacity,
+			double averageSpeed, String currentCity, String availabilityStatus, double pricePerKm, Driver driver) {
+		super();
+		this.vehicleId = vehicleId;
+		this.vehicleName = vehicleName;
+		this.vehicleNum = vehicleNum;
+		this.type = type;
+		this.model = model;
+		this.capacity = capacity;
+		this.averageSpeed = averageSpeed;
+		this.currentCity = currentCity;
+		this.availabilityStatus = availabilityStatus;
+		this.pricePerKm = pricePerKm;
+		this.driver = driver;
+	}
 
 
 	public int getVehicleId() {
@@ -88,15 +69,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setVehicleId(int vehicleId) {
 		this.vehicleId = vehicleId;
 	}
-
-
-
 
 
 	public String getVehicleName() {
@@ -104,15 +79,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setVehicleName(String vehicleName) {
 		this.vehicleName = vehicleName;
 	}
-
-
-
 
 
 	public String getVehicleNum() {
@@ -120,15 +89,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setVehicleNum(String vehicleNum) {
 		this.vehicleNum = vehicleNum;
 	}
-
-
-
 
 
 	public String getType() {
@@ -136,15 +99,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
-
-
 
 
 	public String getModel() {
@@ -152,15 +109,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setModel(String model) {
 		this.model = model;
 	}
-
-
-
 
 
 	public int getCapacity() {
@@ -168,15 +119,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
-
-
 
 
 	public double getAverageSpeed() {
@@ -184,15 +129,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setAverageSpeed(double averageSpeed) {
 		this.averageSpeed = averageSpeed;
 	}
-
-
-
 
 
 	public String getCurrentCity() {
@@ -200,15 +139,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setCurrentCity(String currentCity) {
 		this.currentCity = currentCity;
 	}
-
-
-
 
 
 	public String getAvailabilityStatus() {
@@ -216,15 +149,9 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setAvailabilityStatus(String availabilityStatus) {
 		this.availabilityStatus = availabilityStatus;
 	}
-
-
-
 
 
 	public double getPricePerKm() {
@@ -232,28 +159,20 @@ public class Vehicle {
 	}
 
 
-
-
-
 	public void setPricePerKm(double pricePerKm) {
 		this.pricePerKm = pricePerKm;
 	}
 
 
-
-
-
-	public Driver getD() {
-		return d;
+	public Driver getDriver() {
+		return driver;
 	}
 
 
-
-
-
-	public void setD(Driver d) {
-		this.d = d;
+	public void setDriver(Driver driver) {
+		this.driver = driver;
 	}
-    
-    
+
+
 }
+

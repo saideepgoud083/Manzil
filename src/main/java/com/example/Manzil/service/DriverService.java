@@ -134,21 +134,20 @@ public class DriverService {
 //
 //	    return rs;
 //	}
-
 	public responcestucture<Driver> registerDriver(DriverDto dto) {
 
 	    responcestucture<Driver> rs = new responcestucture<>();
 
-	    Driver drObj = new Driver();
-	    drObj.setLicenseNum(dto.getLicenseNum());
-	    drObj.setUpiId(dto.getUpiId());
-	    drObj.setDriverName(dto.getDriverName());
-	    drObj.setAge(dto.getAge());
-	    drObj.setMobileNum(dto.getMobNum());
-	    drObj.setGender(dto.getGender());
-	    drObj.setMailId(dto.getMailId());
+	    Driver d = new Driver();
+	    d.setLicenseNum(dto.getLicenseNum());
+	    d.setUpiId(dto.getUpiId());
+	    d.setDriverName(dto.getDriverName());
+	    d.setAge(dto.getAge());
+	    d.setMobileNum(dto.getMobNum());
+	    d.setGender(dto.getGender());
+	    d.setMailId(dto.getMailId());
 
-	    // Vehicle Linking
+	    // Create Vehicle
 	    Vehicle v = new Vehicle();
 	    v.setVehicleName(dto.getVehicleName());
 	    v.setVehicleNum(dto.getVehicleNum());
@@ -160,11 +159,13 @@ public class DriverService {
 	    v.setAvailabilityStatus("Available");
 
 	    // Attach both sides
-	    v.setD(drObj);
-	    drObj.setV(v);
+	    v.setDriver(d);   // child → parent
+	    d.setVehicle(v);  // parent → child
 
-	    // 👉 Only ONE SAVE Needed
-	    Driver saved = dr.save(drObj);
+	    // 👉 SAVE DRIVER FIRST (to generate driverId)
+	    Driver saved = dr.save(d);
+
+	    // 👉 VEHICLE WILL AUTOMATICALLY GET SAME ID DUE TO @MapsId
 
 	    rs.setStatuscode(HttpStatus.CREATED.value());
 	    rs.setMasg("Driver registered successfully");
@@ -255,7 +256,7 @@ public class DriverService {
 	    }
 
 	    // update vehicle latitude & longitude
-	    Vehicle v1 = d.getV();
+	    Vehicle v1 = d.getVehicle();
 	    String loc = ls.getCity(latitude,longitude);
 //        Vehicle v = new   Vehicle();
 //        v.setCurrentCity(loc);
@@ -294,7 +295,7 @@ public class DriverService {
 		    }
 		    
 		     d.setDriverStatus(status);
-		     d.getV().setAvailabilityStatus(status);
+		     d.getVehicle().setAvailabilityStatus(status);
 		    
 		Driver updated =    dr.save(d);
 		
@@ -321,7 +322,7 @@ public class DriverService {
 		    }
 		    
 		     d.setDriverStatus(status);
-		     d.getV().setAvailabilityStatus(status);
+		     d.getVehicle().setAvailabilityStatus(status);
 		    
 		Driver updated =    dr.save(d);
 		 responcestucture<Driver> rs = new responcestucture<>();
@@ -347,7 +348,7 @@ public class DriverService {
 		    }
 		    
 		   
-		     d.getV().setAverageSpeed(averageSpeed);
+		     d.getVehicle().setAverageSpeed(averageSpeed);
 		    
 		Driver updated =    dr.save(d);
 		 responcestucture<Driver> rs = new responcestucture<>();
