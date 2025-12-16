@@ -16,4 +16,7 @@ public class ManzilApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+	
+	
+	
 }

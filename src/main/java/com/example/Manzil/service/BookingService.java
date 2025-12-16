@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Manzil.responcestucture;
+import com.example.Manzil.Dto.ActiveBookingDto;
 import com.example.Manzil.Dto.AvailabeVechileDto;
 import com.example.Manzil.Dto.BookingDto;
 import com.example.Manzil.entity.Booking;
@@ -72,7 +73,7 @@ b.setBookingStatus("BOOKED");
 
     v.setAvailabilityStatus("BOOKED");
     v.getDriver().setDriverStatus("BOOKED");
-    
+     c.setFlag(true);
   // Important Saves!
   cr.save(c);
     dr.save(v.getDriver());
@@ -162,7 +163,7 @@ b.setBookingStatus("BOOKED");
 	
 	
 	
-	
+	/*********couystomer*/
 	public ResponseEntity<responcestucture<List<Booking>>> seebookinghistory(long mob) {
 
 	    responcestucture<List<Booking>> rs = new responcestucture<>();
@@ -202,6 +203,13 @@ b.setBookingStatus("BOOKED");
 	        rs.setMasg("Driver not found for mobile: " + mob);
 	        rs.setData(null);
 	        return new ResponseEntity<>(rs, HttpStatus.BAD_REQUEST);
+	        
+	        
+	        
+	        
+	        
+	        
+	        
 	    }
 
 	    // 3. Fetch booking list
@@ -216,7 +224,93 @@ b.setBookingStatus("BOOKED");
 	}
 
 
+
+
+
+
+/********************************/
+
+	public ResponseEntity<responcestucture<ActiveBookingDto>> seeactivebooikngs(long customermob) {
+		// TODO Auto-generated method stub
+		BookingDto bt = new BookingDto();
+		
+
+		 Customer c = cr.findByMob(customermob);
+		Booking b1 = new Booking();
+		if(c.isFlag()==true)
+		{
+			List<Booking> blist = c.getBlist();
+			for(Booking b: blist)
+			{
+				if ("BOOKED".equals(b.getBookingStatus()))
+				{
+					b1=b;
+					break;
+				}
+			}
+			ActiveBookingDto abdto = new ActiveBookingDto();
+			abdto.setBookng(b1);
+			abdto.setCustomername(c.getName());;
+			abdto.setCustomermobnum(customermob);
+			abdto.setCurrentlocation(c.getCurrentLocation());
+			responcestucture<ActiveBookingDto> rs = new responcestucture<ActiveBookingDto>();
+			rs.setStatuscode(HttpStatus.OK.value());
+			rs.setMasg("You have alredy booked one vehicle cant book one more vehicle");
+			rs.setData(abdto);
+			return new ResponseEntity<responcestucture<ActiveBookingDto>>(rs,HttpStatus.OK);
+		}
+		else
+			
+			
+		{
+			Vehicle v = vr.findById(bt.getV().getVehicleId()).get();
+			Driver d = dr.findById(v.getDriver().getDriverId()).get();
+			Booking b = new Booking();
+			b.setCust(c);;
+			b.setVeh(v);
+			
+			b.setSourcelocation(bt.getSourcelocation());
+			b.setDestinationlocation(bt.getDestinationlocation());
+			b.setFare(bt.getFare());
+			b.setEstimatedtimerequired(bt.getEstimatedtime());
+			b.setDistancetravlled(bt.getDistancetravelled());
+		
+			b.setBookingStatus("BOOKED");
+			br.save(b);
+			
+			c.getBlist().add(b);
+			c.setFlag(true);
+			v.getDriver().getBlist().add(b);
+			v.setAvailabilityStatus("BOOKED");
+			d.setDriverStatus("BOOKED");;
+			cr.save(c);
+			vr.save(v);
+			dr.save(d);
+			
+			ActiveBookingDto abdto = new ActiveBookingDto();
+			abdto.setBookng(b);
+			abdto.setCustomername(c.getName());
+			abdto.setCustomermobnum(customermob);
+			abdto.setCurrentlocation(c.getCurrentLocation());
+			responcestucture<ActiveBookingDto> rs = new responcestucture<ActiveBookingDto>();
+			rs.setStatuscode(HttpStatus.OK.value());
+			rs.setMasg("You have successfully booked the vehicle");
+			rs.setData(abdto);
+			return new ResponseEntity<responcestucture<ActiveBookingDto>>(rs,HttpStatus.OK);
+		}
+	}
+
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+
+
 	
 
 
-}

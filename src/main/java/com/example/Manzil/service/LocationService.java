@@ -53,12 +53,10 @@ public class LocationService {
 	                return address.get("village").toString();
 	            }
 	        }
-
+     
 	        throw new InvalidLocation("City not found for given location!");
 	    }
 	}
 
-//    
-//    
 
 

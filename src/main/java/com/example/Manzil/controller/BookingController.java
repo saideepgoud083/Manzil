@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+                                                                  
 import com.example.Manzil.responcestucture;
+import com.example.Manzil.Dto.ActiveBookingDto;
 import com.example.Manzil.Dto.BookingDto;
 import com.example.Manzil.entity.Booking;
 import com.example.Manzil.entity.Driver;
@@ -34,5 +35,22 @@ public class BookingController {
 	return	bs.seeDriverbookhistory(mob);
 		
 	}
+	
+	
+	
+	@PostMapping("/seeactivebooikngs")
+	public ResponseEntity<responcestucture<ActiveBookingDto>> seeactivebooikngs(@RequestParam long customermob) {
+		
+		return bs. seeactivebooikngs(customermob);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

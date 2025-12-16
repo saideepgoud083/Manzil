@@ -21,7 +21,7 @@ public class Driver {
 	    private long mobileNum ;
 	    private String gender;
 	    private String mailId;
-
+	    private String rollbackvarivle = "Driver";
 
 	   
 	    @OneToOne(mappedBy = "driver", cascade = CascadeType.ALL)
@@ -46,10 +46,9 @@ public class Driver {
 
 
 
-		public Driver(int driverId, String licenseNum, String upiId, String driverName, String driverStatus, int age,
-				long mobileNum, String gender, String mailId, Vehicle vehicle, List<Booking> blist) {
+		public Driver(String licenseNum, String upiId, String driverName, String driverStatus, int age, long mobileNum,
+				String gender, String mailId, String rollbackvarivle, Vehicle vehicle, List<Booking> blist) {
 			super();
-			this.driverId = driverId;
 			this.licenseNum = licenseNum;
 			this.upiId = upiId;
 			this.driverName = driverName;
@@ -58,6 +57,7 @@ public class Driver {
 			this.mobileNum = mobileNum;
 			this.gender = gender;
 			this.mailId = mailId;
+			this.rollbackvarivle = rollbackvarivle;
 			this.vehicle = vehicle;
 			this.blist = blist;
 		}
@@ -191,6 +191,20 @@ public class Driver {
 
 
 
+		public String getRollbackvarivle() {
+			return rollbackvarivle;
+		}
+
+
+
+
+		public void setRollbackvarivle(String rollbackvarivle) {
+			this.rollbackvarivle = rollbackvarivle;
+		}
+
+
+
+
 		public Vehicle getVehicle() {
 			return vehicle;
 		}
@@ -215,7 +229,7 @@ public class Driver {
 		public void setBlist(List<Booking> blist) {
 			this.blist = blist;
 		}
-	
+
 
 
 }

@@ -21,78 +21,149 @@ public class Customer {
  private long mob;
  private String emailid;
  private String currentLocation;
-// @OneToMany( cascade = CascadeType.ALL)
+ private boolean flag ;
+ private String rollbackvarivle = "customer";
+ 
+ private int panality =0;
+ 
+
  @OneToMany(mappedBy="cust", cascade=CascadeType.ALL)
- @JsonIgnore   // 👈 ADD THIS
+ @JsonIgnore   
  private List<Booking> blist;
-public Customer(int id, String name, int age, String gender, long mob, String emailid, String currentLocation,
-		List<Booking> blist) {
+
+
+ public Customer() {
 	super();
-	this.id = id;
+}
+
+
+ public Customer(String name, int age, String gender, long mob, String emailid, String currentLocation, boolean flag,
+		String rollbackvarivle, int panality, List<Booking> blist) {
+	super();
 	this.name = name;
 	this.age = age;
 	this.gender = gender;
 	this.mob = mob;
 	this.emailid = emailid;
 	this.currentLocation = currentLocation;
+	this.flag = flag;
+	this.rollbackvarivle = rollbackvarivle;
+	this.panality = panality;
 	this.blist = blist;
-}
-public Customer() {
-	super();
-}
-public int getId() {
+ }
+
+
+ public int getId() {
 	return id;
-}
-public void setId(int id) {
+ }
+
+
+ public void setId(int id) {
 	this.id = id;
-}
-public String getName() {
+ }
+
+
+ public String getName() {
 	return name;
-}
-public void setName(String name) {
+ }
+
+
+ public void setName(String name) {
 	this.name = name;
-}
-public int getAge() {
+ }
+
+
+ public int getAge() {
 	return age;
-}
-public void setAge(int age) {
+ }
+
+
+ public void setAge(int age) {
 	this.age = age;
-}
-public String getGender() {
+ }
+
+
+ public String getGender() {
 	return gender;
-}
-public void setGender(String gender) {
+ }
+
+
+ public void setGender(String gender) {
 	this.gender = gender;
-}
-public long getMob() {
+ }
+
+
+ public long getMob() {
 	return mob;
-}
-public void setMob(long mob) {
+ }
+
+
+ public void setMob(long mob) {
 	this.mob = mob;
-}
-public String getEmailid() {
+ }
+
+
+ public String getEmailid() {
 	return emailid;
-}
-public void setEmailid(String emailid) {
+ }
+
+
+ public void setEmailid(String emailid) {
 	this.emailid = emailid;
-}
-public String getCurrentLocation() {
+ }
+
+
+ public String getCurrentLocation() {
 	return currentLocation;
-}
-public void setCurrentLocation(String currentLocation) {
+ }
+
+
+ public void setCurrentLocation(String currentLocation) {
 	this.currentLocation = currentLocation;
-}
-public List<Booking> getBlist() {
+ }
+
+
+ public boolean isFlag() {
+	return flag;
+ }
+
+
+ public void setFlag(boolean flag) {
+	this.flag = flag;
+ }
+
+
+ public String getRollbackvarivle() {
+	return rollbackvarivle;
+ }
+
+
+ public void setRollbackvarivle(String rollbackvarivle) {
+	this.rollbackvarivle = rollbackvarivle;
+ }
+
+
+ public int getPanality() {
+	return panality;
+ }
+
+
+ public void setPanality(int panality) {
+	this.panality = panality;
+ }
+
+
+ public List<Booking> getBlist() {
 	return blist;
-}
-public void setBlist(List<Booking> blist) {
+ }
+
+
+ public void setBlist(List<Booking> blist) {
 	this.blist = blist;
-}
-//@Override
-//public String toString() {
-//	return "Customer [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", mob=" + mob
-//			+ ", emailid=" + emailid + ", currentLocation=" + currentLocation + ", blist=" + blist + "]";
-//}
-// 
+ }
+ 
+
+ 
+
  
 }
