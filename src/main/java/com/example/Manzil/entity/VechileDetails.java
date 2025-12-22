@@ -4,11 +4,13 @@ public class VechileDetails {
 private Vehicle v;
 private double fare;
 private String estimatedtimerequired;
-public VechileDetails(Vehicle v, double fare, String estimatedtimerequired) {
+private Driver driver;
+public VechileDetails(Vehicle v, double fare, String estimatedtimerequired, Driver driver) {
 	super();
 	this.v = v;
 	this.fare = fare;
 	this.estimatedtimerequired = estimatedtimerequired;
+	this.driver = driver;
 }
 public VechileDetails() {
 	super();
@@ -31,9 +33,12 @@ public String getEstimatedtimerequired() {
 public void setEstimatedtimerequired(String estimatedtimerequired) {
 	this.estimatedtimerequired = estimatedtimerequired;
 }
-@Override
-public String toString() {
-	return "VechileDetails [v=" + v + ", fare=" + fare + ", estimatedtimerequired=" + estimatedtimerequired + "]";
+public Driver getDriver() {
+	return driver;
 }
+public void setDriver(Driver driver) {
+	this.driver = driver;
+}
+
 
 }

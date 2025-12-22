@@ -21,14 +21,25 @@ public class paymentcontroller {
 	@Autowired
 	private  paymentservice ps ;
 	
-	@PostMapping("/completepaymentbycash")
-	public ResponseEntity<responcestucture<paymentdto>> completepayment(@RequestParam int bookingid , @RequestParam String paymenttype) {
-		
-		return  ps.completepayment(bookingid,paymenttype);
-		
-	}
+	
+//	@PostMapping("/completepaymentbycash")
+//	public ResponseEntity<responcestucture<paymentdto>> completepayment(@RequestParam int bookingid , @RequestParam String paymenttype) {
+//		
+//		return  ps.completepayment(bookingid,paymenttype);
+//		
+//	}
+//	
+	//upi ser
 	
 	
+	
+	
+	
+	@PostMapping("/completeride/payByCash")
+	 public ResponseEntity<responcestucture<paymentdto>> completePayment(@RequestParam int bookingid,@RequestParam String paytype,@RequestParam int otp)
+	 {
+		 return ps.completePayment(bookingid, paytype,otp);//
+	 }
 	@PostMapping("/paymentService")
 public ResponseEntity<responcestucture<upiPaymentDTO>> paymentService(@RequestParam int bookingid , @RequestParam String paymenttype) {
 		
@@ -36,14 +47,19 @@ public ResponseEntity<responcestucture<upiPaymentDTO>> paymentService(@RequestPa
 		
 	}
 	
+//	
+//	@GetMapping("/paymentconfirmed")
+//	 public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(@RequestParam int bookingid,@RequestParam String paytype)
+//	 {
+//		 return ps.confrimPaymentCollection(bookingid,paytype);
+//	 }
 	
-	@GetMapping("/paymentconfirmed")
-	 public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(@RequestParam int bookingid,@RequestParam String paytype)
+	
+	@PostMapping("/ridecompleted/paymentconfirmed")
+	 public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(@RequestParam int bookingid,@RequestParam String paytype,@RequestParam int otp)
 	 {
-		 return ps.confrimPaymentCollection(bookingid,paytype);
+		 return ps.confrimPaymentCollection(bookingid,paytype,otp);//
 	 }
-	
-	
 	
 	
 	

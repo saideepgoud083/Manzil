@@ -34,9 +34,15 @@ public class Booking {
 	private Payment payment;
 	private String paymentStatus="not paid";
 	private String bookingStatus="pending";
+	private int otp;
+	
+	@ManyToOne
+	@JsonIgnore
+	private Driver driver;
+
 	public Booking(int id, Customer cust, Vehicle veh, String sourcelocation, String destinationlocation,
 			double distancetravlled, double fare, String estimatedtimerequired, String datebooked, Payment payment,
-			String paymentStatus, String bookingStatus) {
+			String paymentStatus, String bookingStatus, int otp, Driver driver) {
 		super();
 		this.id = id;
 		this.cust = cust;
@@ -50,84 +56,126 @@ public class Booking {
 		this.payment = payment;
 		this.paymentStatus = paymentStatus;
 		this.bookingStatus = bookingStatus;
+		this.otp = otp;
+		this.driver = driver;
 	}
+
 	public Booking() {
 		super();
 	}
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public Customer getCust() {
 		return cust;
 	}
+
 	public void setCust(Customer cust) {
 		this.cust = cust;
 	}
+
 	public Vehicle getVeh() {
 		return veh;
 	}
+
 	public void setVeh(Vehicle veh) {
 		this.veh = veh;
 	}
+
 	public String getSourcelocation() {
 		return sourcelocation;
 	}
+
 	public void setSourcelocation(String sourcelocation) {
 		this.sourcelocation = sourcelocation;
 	}
+
 	public String getDestinationlocation() {
 		return destinationlocation;
 	}
+
 	public void setDestinationlocation(String destinationlocation) {
 		this.destinationlocation = destinationlocation;
 	}
+
 	public double getDistancetravlled() {
 		return distancetravlled;
 	}
+
 	public void setDistancetravlled(double distancetravlled) {
 		this.distancetravlled = distancetravlled;
 	}
+
 	public double getFare() {
 		return fare;
 	}
+
 	public void setFare(double fare) {
 		this.fare = fare;
 	}
+
 	public String getEstimatedtimerequired() {
 		return estimatedtimerequired;
 	}
+
 	public void setEstimatedtimerequired(String estimatedtimerequired) {
 		this.estimatedtimerequired = estimatedtimerequired;
 	}
+
 	public String getDatebooked() {
 		return datebooked;
 	}
+
 	public void setDatebooked(String datebooked) {
 		this.datebooked = datebooked;
 	}
+
 	public Payment getPayment() {
 		return payment;
 	}
+
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
+
 	public String getPaymentStatus() {
 		return paymentStatus;
 	}
+
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
+
 	public String getBookingStatus() {
 		return bookingStatus;
 	}
+
 	public void setBookingStatus(String bookingStatus) {
 		this.bookingStatus = bookingStatus;
 	}
-	
-	
+
+	public int getOtp() {
+		return otp;
+	}
+
+	public void setOtp(int otp) {
+		this.otp = otp;
+	}
+
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+
 	
 	
 }

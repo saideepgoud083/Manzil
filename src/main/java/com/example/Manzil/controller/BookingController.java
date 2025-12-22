@@ -47,7 +47,11 @@ public class BookingController {
 	
 	
 	
-	
+	  @GetMapping("/getotp")
+		 public ResponseEntity<responcestucture<Integer>> getotp(@RequestParam int bookingid)
+		 {
+			 return bs.getotp(bookingid);
+		 }
 	
 	
 	

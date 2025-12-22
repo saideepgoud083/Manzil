@@ -17,6 +17,8 @@ import com.example.Manzil.repository.CustomerRepositry;
 import com.example.Manzil.repository.DriverRepository;
 import com.example.Manzil.repository.VechileRepositry;
 import com.example.Manzil.repository.bookingRepository;
+import com.example.Manzil.service.Exception.DriverAlreadyExistsException;
+import com.example.Manzil.service.Exception.bookingnotfind;
 import com.example.Manzil.service.Exception.vechilenotfound;
 import java.time.*;
 import java.util.List;
@@ -33,7 +35,8 @@ public class BookingService {
 	@Autowired
 	private	DriverRepository dr;
 	
-
+	@Autowired
+	private EmailService es;
 	public responcestucture<Booking> bookVechilee(long mob, BookingDto bd) {
 
 	    responcestucture<Booking> rs = new responcestucture<>();
@@ -52,13 +55,29 @@ public class BookingService {
                .orElseThrow(() -> new vechilenotfound());
 
   LocalDateTime now = LocalDateTime.now();
-
+int driverid=bd.getD().getDriverId();
+Driver d=dr.findById(driverid).orElseThrow(()-> new DriverAlreadyExistsException() );
    Booking b = new Booking();
+   
+   int otp = (int)(Math.random() * 9000) + 1000;
+   b.setOtp(otp);
+
+   b.setDriver(d);
    b.setCust(c);
   b.setVeh(v);
   b.setSourcelocation(bd.getSourcelocation());
  b.setDestinationlocation(bd.getDestinationlocation());
  b.setFare(bd.getFare());
+ double baseFare = v.getPricePerKm() * bd.getDistancetravelled();
+ double totalFare = baseFare;
+ int penaltyCount = c.getPanality();
+ if (penaltyCount > 1) {
+     totalFare = baseFare + (baseFare / 100) * penaltyCount * 10;
+ }
+ b.setFare(totalFare);
+
+	
+
    b.setDistancetravlled(bd.getDistancetravelled());
    b.setEstimatedtimerequired(bd.getEstimatedtime());
    b.setDatebooked(now.toString());
@@ -81,6 +100,10 @@ b.setBookingStatus("BOOKED");
     rs.setStatuscode(HttpStatus.OK.value());
     rs.setMasg("Booking Successfully");
     rs.setData(saved);
+    es.sendMail(c.getEmailid()," Your ride has been booked \"+ b.getId()+\" booking details/   booking date= \"+b.getDatebooked()+\" DropLocation= \"+b.getDestinationlocation()+\" Amount to be paid= \"+b.getFare()+\" our driver = \"+d.getDriverName()+\" Driver MobileNumber= \"+d.getMobileNum()+\" Driver will contact Shortly before pickup//-----ThankYou For Chossing Manzil----","Booking Confirmation");
+    es.sendMail(d.getMailId(), " Customer details"+c+"booking assigned by= "+d.getDriverName()+" booking details/ booking id ="+b.getId()+ "booking date ="+b.getDatebooked()+" Customer name= "+c.getName()+" pickupLocation= "+c.getCurrentLocation()+" DropLocation = "+b.getDestinationlocation()+"Fare amount= "+b.getFare(), "your vechile booked successfully");
+    
+    
     return rs;
 	}
 
@@ -303,12 +326,27 @@ b.setBookingStatus("BOOKED");
 		
 		
 		
-		
+	
+public ResponseEntity<responcestucture<Integer>> getotp(int bookingid) 
+{
+	Booking b = br.findById(bookingid).orElseThrow(bookingnotfind::new);
+	int otp = (int)(Math.random() * 9000) + 1000;
+	b.setOtp(otp);
+	br.save(b);
+	responcestucture<Integer> rs = new responcestucture<Integer>();
+	rs.setStatuscode(HttpStatus.OK.value());
+	rs.setMasg("Otp generated");
+	rs.setData(otp);
+	return new ResponseEntity<responcestucture<Integer>>(rs,HttpStatus.OK);
+
+}
 		
 		
 		
 		
 	}
+
+
 
 
 	

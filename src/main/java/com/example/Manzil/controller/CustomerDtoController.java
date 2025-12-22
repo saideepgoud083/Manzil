@@ -1,6 +1,7 @@
 package com.example.Manzil.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.Manzil.responcestucture;
 import com.example.Manzil.Dto.AvailabeVechileDto;
 import com.example.Manzil.Dto.CustomerDto;
+import com.example.Manzil.entity.Booking;
 import com.example.Manzil.entity.Customer;
 import com.example.Manzil.entity.Driver;
 import com.example.Manzil.service.CustomerService;
@@ -48,6 +50,13 @@ public class CustomerDtoController {
     	
 }
     
+    
+    @PostMapping("/custCancel")
+    public ResponseEntity<responcestucture<Booking>> customerCancel(@RequestParam int customerId,int bookingid) {
+    	return cs. cancelbooking(customerId, bookingid);
+    }
+    
+  
     
     
 }

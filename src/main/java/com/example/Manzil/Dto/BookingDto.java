@@ -1,5 +1,6 @@
 package com.example.Manzil.Dto;
 
+import com.example.Manzil.entity.Driver;
 import com.example.Manzil.entity.Vehicle;
 	
 	public class BookingDto {
@@ -13,8 +14,9 @@ import com.example.Manzil.entity.Vehicle;
 		
 		private double distancetravelled;
 		private String estimatedtime;
+		private Driver d;
 		public BookingDto(Vehicle v, String sourcelocation, String destinationlocation, double fare,
-				double distancetravelled, String estimatedtime) {
+				double distancetravelled, String estimatedtime, Driver d) {
 			super();
 			this.v = v;
 			this.sourcelocation = sourcelocation;
@@ -22,6 +24,7 @@ import com.example.Manzil.entity.Vehicle;
 			this.fare = fare;
 			this.distancetravelled = distancetravelled;
 			this.estimatedtime = estimatedtime;
+			this.d = d;
 		}
 		public BookingDto() {
 			super();
@@ -62,8 +65,12 @@ import com.example.Manzil.entity.Vehicle;
 		public void setEstimatedtime(String estimatedtime) {
 			this.estimatedtime = estimatedtime;
 		}
-		
-		
+		public Driver getD() {
+			return d;
+		}
+		public void setD(Driver d) {
+			this.d = d;
+		}
 		
 		
 		

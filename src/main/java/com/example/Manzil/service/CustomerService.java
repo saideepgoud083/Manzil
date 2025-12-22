@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Manzil.responcestucture;
@@ -17,9 +18,11 @@ import com.example.Manzil.entity.VechileDetails;
 import com.example.Manzil.entity.Vehicle;
 import com.example.Manzil.repository.CustomerRepositry;
 import com.example.Manzil.repository.VechileRepositry;
+import com.example.Manzil.repository.bookingRepository;
 import com.example.Manzil.service.Exception.CustomerAlreadyExistsException;
 import com.example.Manzil.service.Exception.DataIntegrityViolationException;
 import com.example.Manzil.service.Exception.DriverAlreadyExistsException;
+import com.example.Manzil.service.Exception.bookingnotfind;
 
 @Service
 public class CustomerService {
@@ -29,9 +32,13 @@ public class CustomerService {
 private LocationService ls;
 @Autowired
 private VechileRepositry vr;
+@Autowired
+private bookingRepository br;
+@Autowired
+private CoordinateService cs;
 
 @Autowired
-CoordinateService cs;
+private  EmailService es;
 
 @Autowired
 CalculateDistanceService cds;
@@ -63,6 +70,8 @@ CalculateDistanceService cds;
        rs.setStatuscode(HttpStatus.CREATED.value());
 	    rs.setMasg("Customer registered successfully");
 	    rs.setData(save);
+	    es. sendMail(c.getEmailid(),"Registeration Successfully "+c.getName()
+   		,"Customer registered successfully");
 return rs;
 
 	
@@ -152,6 +161,7 @@ return rs;
 	    avd.setDistance(distance);
 	    avd.setSourceLocation(sourceCity);
 	    avd.setDestinationLocation(destinationlocation);
+	
 
 	    // 7️⃣ Get Available Vehicles in Same City
 	    List<Vehicle> vlist = vr.findByCurrentCityIgnoreCase(sourceCity);
@@ -165,12 +175,12 @@ return rs;
 
 
 	        double time = distance / avgSpeed;
-
+	        Driver d=x.getDriver();
 	        VechileDetails vd = new VechileDetails();
 	        vd.setFare(fare);
 	        vd.setEstimatedtimerequired(String.format("%.2f hr", time));
 	        vd.setV(x);
-
+	    vd.setDriver(d);
 	        avd.getAvailablevechicle().add(vd);
 	    }
 
@@ -180,6 +190,53 @@ return rs;
 	    rs.setData(avd);
 	    return rs;
 	}
+	
+	//cancel
+public ResponseEntity<responcestucture<Booking>> cancelbooking(int customerId, int bookingid) {
+		
+		Customer c = cr.findById(customerId).orElseThrow(CustomerAlreadyExistsException::new);
 
+		Booking book = br.findById(bookingid).orElseThrow(bookingnotfind::new);
+
+//		Vehicle v= vr.findById(v.getId()).orElseThrow(()->new VehicleNotFoundException());
+				
+		if (book.getCust().getId() != customerId) {
+			throw new bookingnotfind(); 
+		}
+		if (book.getBookingStatus().equalsIgnoreCase("CANCELLED")) {
+		        throw new IllegalStateException("Booking already cancelled");
+		}
+
+		book.setBookingStatus("CANCELLED By CUSTOMER");
+		book.setPaymentStatus("NOT PAID");
+		
+		if (c.getPanality() >= 1) {      
+		        c.setPanality(c.getPanality() + 1);
+		 } else {       
+		        c.setPanality(bookingid);
+		 }
+	    c.setFlag(false);
+	    
+		br.save(book);
+		cr.save(c);
+
+		Vehicle v = book.getVeh();
+//		Driver d = book.getDriver();
+
+		v.setAvailabilityStatus("AVAILABLE");
+//		d.setStatus("AVAILABLE");
+
+		vr.save(v);
+		 
+		responcestucture<Booking> rs = new responcestucture<Booking>();
+		rs.setStatuscode(HttpStatus.OK.value());
+		rs.setMasg("Booking cancelled successfully");
+		rs.setData(book);
+		 es. sendMail(c.getEmailid(),"Cancelled Successfully "+c.getName()
+	   		,"Customer cancelled successfully");
+		
+		return new ResponseEntity<responcestucture<Booking>>(rs,HttpStatus.OK);
+	}
+	
 
 }

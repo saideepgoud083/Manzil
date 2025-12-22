@@ -21,6 +21,7 @@ import com.example.Manzil.repository.CustomerRepositry;
 import com.example.Manzil.repository.VechileRepositry;
 import com.example.Manzil.repository.bookingRepository;
 import com.example.Manzil.repository.paymentrepository;
+import com.example.Manzil.service.Exception.InvalidOtpException;
 import com.example.Manzil.service.Exception.bookingnotfind;
 
 @Service
@@ -33,71 +34,88 @@ private paymentrepository pr ;
 	private CustomerRepositry cr;
 	@Autowired
 	private VechileRepositry vr;
-	public ResponseEntity<responcestucture<paymentdto>> completepayment(int bookingid, String paymenttype) {
-		// TODO Auto-generated method stub
-		
-	Booking b =	br.findById(bookingid).orElseThrow(()->new bookingnotfind());
+	@Autowired
+	private EmailService es;
 	
-	b.setBookingStatus("compleled");
-		b.setPaymentStatus("paid");
-	  Customer c = b.getCust();
-	  c.setFlag(false);
-		Vehicle v =b.getVeh();
-		v.setAvailabilityStatus("avilable");
+//	public ResponseEntity<responcestucture<paymentdto>> completepayment(int bookingid, String paymenttype) {
+//		// TODO Auto-generated method stub
+//		
+//	Booking b =	br.findById(bookingid).orElseThrow(()->new bookingnotfind());
+//	
+//	b.setBookingStatus("compleled");
+//		b.setPaymentStatus("paid");
+//	  Customer c = b.getCust();
+//	  c.setFlag(false);
+//		Vehicle v =b.getVeh();
+//		v.setAvailabilityStatus("avilable");
+//		Payment p = new Payment();
+//		p.setV(v);
+//		p.setCustomer(c);
+//		p.setBooking(b);
+//		p.setAmount(b.getFare());
+//		p.setPaymentype(paymenttype);
+//		Customer cs =cr.save(c);
+//		          Vehicle vs =    vr.save(v);
+//		     Booking bb =   br.save(b);
+//		  Payment pp =   pr.save(p);
+//		  
+//		paymentdto pdto = new paymentdto();
+//		
+//		pdto.setB(b);
+//		pdto.setC(c);
+//		pdto.setV(v);
+//		pdto.setP(p);
+//		responcestucture<paymentdto> rs = new responcestucture<paymentdto>();
+//		rs.setStatuscode(HttpStatus.OK.value());
+//		rs.setMasg("payment do using "+paymenttype);
+//		rs.setData(pdto);
+//		 return new ResponseEntity<responcestucture<paymentdto>>(rs,HttpStatus.OK);
+//
+//	}
+	
+	public ResponseEntity<responcestucture<paymentdto>> completePayment(int bookingid,String paytype, int otp) {
+		Booking b = br.findById(bookingid).orElseThrow(()->new bookingnotfind());
+		if(b.getOtp()!=otp) throw new InvalidOtpException();
+		b.setBookingStatus("COMPLETED");
+		b.setPaymentStatus("PAID");
+		
+		Customer c = b.getCust();
+		c.setFlag(false);
+		c.setCurrentLocation(b.getDestinationlocation());
+		
+		if(c.getPanality() > 0) {
+		    c.setPanality(0);
+		}
+		Vehicle v = b.getVeh();
+		v.setAvailabilityStatus("Available");
+		v.setCurrentCity(b.getDestinationlocation());
 		Payment p = new Payment();
 		p.setV(v);
 		p.setCustomer(c);
 		p.setBooking(b);
 		p.setAmount(b.getFare());
-		p.setPaymentype(paymenttype);
-		Customer cs =cr.save(c);
-		          Vehicle vs =    vr.save(v);
-		     Booking bb =   br.save(b);
-		  Payment pp =   pr.save(p);
-		  
+		p.setPaymentype(paytype);
+		pr.save(p);
+		b.setPayment(p);
+		cr.save(c);
+		vr.save(v);
+		br.save(b);
 		paymentdto pdto = new paymentdto();
-		
 		pdto.setB(b);
 		pdto.setC(c);
-		pdto.setV(v);
 		pdto.setP(p);
+		pdto.setV(v);
 		responcestucture<paymentdto> rs = new responcestucture<paymentdto>();
 		rs.setStatuscode(HttpStatus.OK.value());
-		rs.setMasg("payment do using "+paymenttype);
+		rs.setMasg("Payment Done using "+paytype);
 		rs.setData(pdto);
-		 return new ResponseEntity<responcestucture<paymentdto>>(rs,HttpStatus.OK);
+		
 
+		 es. sendMail(c.getEmailid(),"Payment Successfully "+c.getName()
+	   		,"Customer Payment successfully");
+		
+		return new ResponseEntity<responcestucture<paymentdto>>(rs,HttpStatus.OK);
 	}
-	
-//	
-//	
-//	public ResponseEntity<responcestucture<upiPaymentDTO>> paymentService(int bookingid, String paytype) {
-//
-//		Booking b =	br.findById(bookingid).orElseThrow(()->new bookingnotfind());
-//	    String upiid = b.getVeh().getDriver().getUpiId();
-//	    String amount = String.format("%.2f", b.getFare());
-//	    String upiData = "upi://pay?pa=" + upiid +"&pn=FindRide" +"&am=" + amount +"&cu=INR";
-//
-//	    String encodedUpiData = URLEncoder.encode(upiData, StandardCharsets.UTF_8);
-//
-//	    String qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodedUpiData;
-//
-//	    RestTemplate rt = new RestTemplate();
-//	    byte[] qrBytes = rt.getForObject(qrUrl, byte[].class);
-//
-//	    upiPaymentDTO updto = new upiPaymentDTO();
-//	    updto.setFare(amount);
-//	    updto.setQr(qrBytes);
-//
-//	    responcestucture<upiPaymentDTO> rs = new responcestucture<>();
-//	    rs.setStatuscode(HttpStatus.OK.value());
-//	    rs.setMasg("UPI QR generated successfully");
-//	    rs.setData(updto);
-//
-//	    return new ResponseEntity<responcestucture<upiPaymentDTO>>(rs, HttpStatus.OK);
-//	}
-//	
-//	
 	public ResponseEntity<responcestucture<upiPaymentDTO>> paymentService(int bookingid, String paytype) {
 
 	    Booking b = br.findById(bookingid)
@@ -135,17 +153,26 @@ private paymentrepository pr ;
 	    rs.setMasg("UPI QR generated successfully");
 	    rs.setData(updto);
 
+
 	    return new ResponseEntity<>(rs, HttpStatus.OK);
 	}
 
 	
 	
 	
-	
-	
-public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(int bookingid, String paytype) {
-		
-		return completepayment(bookingid, paytype);
+//	
+//	
+//public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(int bookingid, String paytype) {
+//		
+//		return completepayment(bookingid, paytype);
+//
+//	}
 
-	}
+
+public ResponseEntity<responcestucture<paymentdto>> confrimPaymentCollection(int bookingid, String paytype,int otp) {
+	
+	
+	return completePayment(bookingid, paytype,otp);
+
+}
 }
