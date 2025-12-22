@@ -1,20 +1,28 @@
 package com.example.Manzil.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.Manzil.responcestucture;
 import com.example.Manzil.Dto.DriverDto;
+import com.example.Manzil.entity.Booking;
 import com.example.Manzil.entity.Driver;
 import com.example.Manzil.entity.Vehicle;
 import com.example.Manzil.repository.DriverRepository;
 import com.example.Manzil.repository.VechileRepositry;
+import com.example.Manzil.repository.bookingRepository;
 import com.example.Manzil.service.Exception.DataIntegrityViolationException;
 import com.example.Manzil.service.Exception.DriverAlreadyExistsException;
 import com.example.Manzil.service.Exception.DriverNotFoundException;
+import com.example.Manzil.service.Exception.InvalidOtpException;
+import com.example.Manzil.service.Exception.bookingnotfind;
+import com.example.Manzil.service.Exception.thsibookingidnotfound;
 
 
 @Service
@@ -25,8 +33,12 @@ public class DriverService {
 	private VechileRepositry vr;
 	@Autowired
 	private LocationService ls;
-	
+	@Autowired
+	private bookingRepository br;
 
+	
+	@Autowired
+	private  EmailService es;
 //	
 //	
 //	public void regdriver(DriverDto dto) {
@@ -167,9 +179,18 @@ public class DriverService {
 
 	    // 👉 VEHICLE WILL AUTOMATICALLY GET SAME ID DUE TO @MapsId
 
+	    
 	    rs.setStatuscode(HttpStatus.CREATED.value());
 	    rs.setMasg("Driver registered successfully");
 	    rs.setData(saved);
+	    
+	  
+	    
+	   es. sendMail(d.getMailId(),"Registeration Successfully "+d.getDriverName()
+	   		,"Driver registered successfully");
+	    
+	    
+	    
 	    return rs;
 	}
 
@@ -359,7 +380,106 @@ public class DriverService {
 
 		
 	}
-	
+//	 public ResponseEntity<responcestucture<Booking>> cancelRideDriver(
+//	            int driverId, int bookingId) {
+//
+//	        responcestucture<Booking> rs = new responcestucture<>();
+//	        
+////	        Driver d=vr.findDriverbyId(driverId);
+//
+//	        // 1️⃣ Get today date
+//	        String todaysDate = LocalDate.now().toString();
+//
+//	        // 2️⃣ Fetch driver
+//	        Driver driver = dr.findById(driverId)
+//	                .orElseThrow(DriverNotFoundException::new);
+//
+//	        Vehicle v=new Vehicle();
+//	        // 3️⃣ Get today's bookings of driver
+//	        List<Booking> blist =
+//	                br.findTodayBookingsByDriverId(driverId, todaysDate);
+//
+//	        // 4️⃣ Get booking
+//	        Booking booking = br.findById(bookingId)
+//	                .orElseThrow(thsibookingidnotfound::new);
+//
+//	        // 5️⃣ Count cancellations
+//	        int cancelCount = 0;
+//	        for (Booking b : blist) {
+//	            if ("CANCELLED_BY_DRIVER".equals(b.getBookingStatus())) {
+//	                cancelCount++;
+//	            }
+//	        }
+//
+//	        // 6️⃣ Apply rules
+//	        if (cancelCount >= 4) {
+//	            driver.setDriverStatus("BLOCKED");
+//	            booking.setBookingStatus("CANCELLED");
+//	            rs.setMasg("Driver blocked due to multiple cancellations today");
+//	        } else {
+//	            booking.setBookingStatus("CANCELLED_BY_DRIVER");
+//	            rs.setMasg("Ride cancelled by driver successfully");
+//	        }
+//
+//	        // 7️⃣ Save
+//	        dr.save(driver);
+//	        Booking savedBooking = br.save(booking);
+//
+//	        // 8️⃣ Response
+//	        rs.setStatuscode(HttpStatus.OK.value());
+//	        rs.setData(savedBooking);
+//
+//	        return new ResponseEntity<>(rs, HttpStatus.OK);
+//	    }
 
+	
+	public ResponseEntity<responcestucture<Booking>> cancelbooking(int driverId, int bookingid) {
+		int cancelcount=0;
+		String today = LocalDate.now().toString(); // "2025-12-17"
+
+		List<Booking> blist = br.findByDriver_DriverIdAndDatebooked(driverId,today);
+		Booking book = br.findById(bookingid).orElseThrow(()->new bookingnotfind());
+		for(Booking b:blist)
+		{
+			if ("cancelledbydriver".equalsIgnoreCase(b.getBookingStatus()))
+			{
+			    cancelcount++;
+			}
+
+		}
+		Driver d = dr.findById(driverId).orElseThrow(()->new DriverNotFoundException());
+		if(cancelcount>=4)
+		{
+			d.setDriverStatus("BLOCKED");
+			book.setBookingStatus("CANCELLED");
+		}
+		else if(cancelcount<4)
+		{
+			book.setBookingStatus("CANCELLED");
+		}
+		dr.save(d);
+		br.save(book);
+		responcestucture<Booking> rs = new responcestucture<Booking>();
+		rs.setStatuscode(HttpStatus.OK.value());
+		rs.setMasg("Booking cancelled successfully");
+		rs.setData(book);
+		  es. sendMail(d.getMailId(),"Cancelled Successfully "+d.getDriverName()
+	   		,"Driver cancelled successfully");
+		return new ResponseEntity<responcestucture<Booking>>(rs,HttpStatus.OK);
+	}
+	public ResponseEntity<responcestucture<String>> startride(int otp,int bookingid) 
+	{	
+		Booking b = br.findById(bookingid).orElseThrow(()->new bookingnotfind());
+		if(otp!=b.getOtp()) throw new InvalidOtpException();
+		responcestucture<String> rs = new responcestucture<String>();
+		rs.setStatuscode(HttpStatus.OK.value());
+		rs.setMasg("OTP verified successfully");
+		rs.setData("OTP verified successfully");
+		return new ResponseEntity<responcestucture<String>>(rs,HttpStatus.OK);
+	}
 }
+
+	        
+	    
+
 

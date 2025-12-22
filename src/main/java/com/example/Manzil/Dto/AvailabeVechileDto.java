@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.Manzil.entity.Customer;
+import com.example.Manzil.entity.Driver;
 import com.example.Manzil.entity.VechileDetails;
 
 public class AvailabeVechileDto {
@@ -14,66 +15,71 @@ public class AvailabeVechileDto {
  
  //private List<VechileDetails> availablevechicle;
  private List<VechileDetails> availablevechicle = new ArrayList<>();
+ 
+ private Driver driver;
 
- public AvailabeVechileDto() {
-	super();
- }
-
- public AvailabeVechileDto(Customer c, double distance, String sourceLocation, String destinationLocation,
-		List<VechileDetails> availablevechicle) {
+public AvailabeVechileDto(Customer c, double distance, String sourceLocation, String destinationLocation,
+		List<VechileDetails> availablevechicle, Driver driver) {
 	super();
 	this.c = c;
 	this.distance = distance;
 	this.sourceLocation = sourceLocation;
 	DestinationLocation = destinationLocation;
 	this.availablevechicle = availablevechicle;
- }
+	this.driver = driver;
+}
 
- public Customer getC() {
+public AvailabeVechileDto() {
+	super();
+}
+
+public Customer getC() {
 	return c;
- }
+}
 
- public void setC(Customer c) {
+public void setC(Customer c) {
 	this.c = c;
- }
+}
 
- public double getDistance() {
+public double getDistance() {
 	return distance;
- }
+}
 
- public void setDistance(double distance) {
+public void setDistance(double distance) {
 	this.distance = distance;
- }
+}
 
- public String getSourceLocation() {
+public String getSourceLocation() {
 	return sourceLocation;
- }
+}
 
- public void setSourceLocation(String sourceLocation) {
+public void setSourceLocation(String sourceLocation) {
 	this.sourceLocation = sourceLocation;
- }
+}
 
- public String getDestinationLocation() {
+public String getDestinationLocation() {
 	return DestinationLocation;
- }
+}
 
- public void setDestinationLocation(String destinationLocation) {
+public void setDestinationLocation(String destinationLocation) {
 	DestinationLocation = destinationLocation;
- }
+}
 
- public List<VechileDetails> getAvailablevechicle() {
+public List<VechileDetails> getAvailablevechicle() {
 	return availablevechicle;
- }
+}
 
- public void setAvailablevechicle(List<VechileDetails> availablevechicle) {
+public void setAvailablevechicle(List<VechileDetails> availablevechicle) {
 	this.availablevechicle = availablevechicle;
- }
+}
 
- @Override
- public String toString() {
-	return "AvailabeVechileDto [c=" + c + ", distance=" + distance + ", sourceLocation=" + sourceLocation
-			+ ", DestinationLocation=" + DestinationLocation + ", availablevechicle=" + availablevechicle + "]";
- }
+public Driver getDriver() {
+	return driver;
+}
+
+public void setDriver(Driver driver) {
+	this.driver = driver;
+}
 
 
  

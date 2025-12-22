@@ -1,6 +1,7 @@
 package com.example.Manzil.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Manzil.responcestucture;
 import com.example.Manzil.Dto.DriverDto;
+import com.example.Manzil.entity.Booking;
 import com.example.Manzil.entity.Driver;
 import com.example.Manzil.service.DriverService;
 
@@ -27,6 +29,8 @@ public class Drivercontroller {
 
 	    @PostMapping("/regdriver")
 	    public responcestucture<Driver> registerDriver(@RequestBody @Validated DriverDto dto) {
+	    	
+	    	
 	        return ds.registerDriver(dto);
 	    }
 	
@@ -88,6 +92,29 @@ public class Drivercontroller {
     	return ds.updateaverageSpeed(mobnum , averageSpeed);
     }
 
+    
+    
+    
+    
+    //cancel
+    
+    
+    @PostMapping("/cancelRideByDriver")
+    public ResponseEntity<responcestucture<Booking>> cancelRide(@RequestParam int DriverId,@RequestParam int bookingid) {
+    return	 ds.cancelbooking(DriverId,bookingid);
+    	
+    }
+    
+    @PostMapping("/startride")
+	 public ResponseEntity<responcestucture<String>> startride(@RequestParam int otp,@RequestParam int bookingid)
+	 {
+		 return ds.startride(otp,bookingid);
+	 }
+    
+    
+    
+    
+    
     
 
 }
